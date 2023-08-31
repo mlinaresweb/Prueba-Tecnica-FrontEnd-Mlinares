@@ -5,11 +5,16 @@
       <img :src="item.url" @error="handleImageError(item.id)" @click="addPoints(item.seller.id)" />
       <p>{{ item.seller.name }}: {{ item.seller.points }}</p>
     </div>
+    <div v-if="winner">
+      <p>{{ winner.name }} ha ganado la carrera</p>
+      <button @click="resetGame">Reiniciar juego</button> 
+    </div>
   </div>
 </template>
 
+
 <script lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { fetchImages } from '../services/googleImageService';
 
@@ -29,6 +34,7 @@ export default {
     const query = ref('');
     const imageItems = ref<ImageItem[]>([]);
     const extraImages = ref<ImageItem[]>([]);
+      const winner = computed(() => store.state.winner); // Acceder al vendedor ganador desde el estado
 
     const isValidImage = async (url: string) => {
       return new Promise<boolean>((resolve, reject) => {
@@ -77,13 +83,17 @@ imageItems.value = images.map((image: ImageItem, index: number) => {
     const addPoints = (sellerId: string) => {
       store.commit('addPoints', sellerId);
     };
-
+    const resetGame = () => {
+  store.commit('resetGame');
+};
     return {
       query,
       imageItems,
       loadImages,
       addPoints,
-      handleImageError
+      handleImageError,
+      winner,
+      resetGame
     };
   }
 };
