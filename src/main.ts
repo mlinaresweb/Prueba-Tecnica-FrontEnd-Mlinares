@@ -1,14 +1,9 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import store from './store';
-import { createSeller, getSellers } from './services/alegraService';
+import {  getSellers } from './services/alegraService';
+import { AlegraSellerResponse } from "./store/types/types";
 
-interface AlegraSellerResponse {
-  id: string;
-  name: string;
-  status: string;
-  // Añade aquí más campos según los datos de la API
-}
 
 async function initSellers() {
     try {

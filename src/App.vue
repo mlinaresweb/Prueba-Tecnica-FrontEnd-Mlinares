@@ -1,16 +1,19 @@
 <template>
   <div id="app">
     <ImageSelector />
+    <WinnerDisplay></WinnerDisplay>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import ImageSelector from './components/ImageSelector.vue'; 
+import WinnerDisplay from './components/WinnerDisplay.vue';
 
 export default defineComponent({
   components: {
-    ImageSelector
+    ImageSelector,
+    WinnerDisplay
   }
 });
 </script>

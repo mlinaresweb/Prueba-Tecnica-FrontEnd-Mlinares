@@ -13,10 +13,6 @@
         <p>{{ item.seller.name }}: {{ item.seller.points }}</p>
       </div>
     </div>
-    <div v-if="winner">
-      <p>{{ winner.name }} ha ganado la carrera</p>
-      <button @click="resetGame">Reiniciar juego</button>
-    </div>
     <div>
       <p>Ronda: {{ round }}</p>
       <button @click="endRound">Finalizar ronda</button>
@@ -38,122 +34,110 @@
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { fetchImages } from '../services/googleImageService';
+import { ImageItem } from "../store/types/types";
 
-interface ImageItem {
-  id: string;
-  url: string;
-  seller: {
-    id: string;
-    name: string;
-    points: number;
-  };
-}
 
 export default {
-  setup() {
-    const store = useStore();
-    const query = ref('');
-    const imageItems = ref<ImageItem[]>([]);
-    const extraImages = ref<ImageItem[]>([]);
-      const winner = computed(() => store.state.winner); // Acceder al vendedor ganador desde el estado
-      const round = computed(() => store.state.round);
-    const selectedImages = computed(() => store.state.selectedImages);
-    const selectedSeller = ref<string | null>(null); // Nuevo estado para almacenar el vendedor seleccionado temporalmente
-      const selectedImageId = ref<string | null>(null);  // Nuevo estado para almacenar el ID de la imagen seleccionada
+    setup() {
+        const store = useStore();
+        const query = ref('');
+        const imageItems = ref<ImageItem[]>([]);
+        const extraImages = ref<ImageItem[]>([]);
+        const round = computed(() => store.state.game.round);
+        const selectedImages = computed(() => store.state.images.selectedImages);
+        const selectedSeller = ref<string | null>(null); // Nuevo estado para almacenar el vendedor seleccionado temporalmente
+        const selectedImageId = ref<string | null>(null); // Nuevo estado para almacenar el ID de la imagen seleccionada
+          const winner = computed(() => store.state.game.winner); // Nueva propiedad computada para el ganador
 
-    const isValidImage = async (url: string) => {
-      return new Promise<boolean>((resolve, reject) => {
-        let img = new Image();
-        img.onload = () => resolve(true);
-        img.onerror = () => resolve(false);
-        img.src = url;
-      });
-    };
-
-    const loadImages = async () => {
-      if (query.value) {
-        let images = await fetchImages(query.value, 10);
-        const sellers: any = store.state.sellers;
+        const isValidImage = async (url: string) => {
+            return new Promise<boolean>((resolve, reject) => {
+                let img = new Image();
+                img.onload = () => resolve(true);
+                img.onerror = () => resolve(false);
+                img.src = url;
+            });
+        };
+       
+        const loadImages = async () => {
+          if (winner.value) {
+                alert("El juego ha terminado, no se pueden cargar más imágenes.");
+                return; // Terminar la función si hay un ganador
+            }
+            if (query.value) {
+                let images = await fetchImages(query.value, 10);
+                const sellers: any = store.state.sellers.sellers;
+                images = await Promise.all(images.map(async (image: ImageItem) => {
+                    if (await isValidImage(image.url)) {
+                        return image;
+                    }
+                    return null;
+                }));
+                images = images.filter((image: ImageItem | null) => image !== null);
+                imageItems.value = images.map((image: ImageItem, index: number) => {
+                    return {
+                        id: image.id,
+                        url: image.url,
+                        seller: sellers[index % sellers.length]
+                    };
+                });
+                extraImages.value = imageItems.value.slice(5);
+            }
+        };
         
-        images = await Promise.all(images.map(async (image: ImageItem) => {
-  if (await isValidImage(image.url)) {
-    return image;
-  }
-  return null;
-}));
-
-images = images.filter((image: ImageItem | null) => image !== null);
-
-imageItems.value = images.map((image: ImageItem, index: number) => {
-  return {
-    id: image.id,
-    url: image.url,
-    seller: sellers[index % sellers.length]
-  };
-});
-
-
-        extraImages.value = imageItems.value.slice(5);
-      }
-    };
-
-    const handleImageError = (id: string) => {
-      const index = imageItems.value.findIndex(item => item.id === id);
-      if (index !== -1 && extraImages.value.length > 0) {
-        const [replacement] = extraImages.value.splice(0, 1);
-        imageItems.value.splice(index, 1, replacement);
-      }
-    };
-
-    const addPoints = (sellerId: string) => {
-      store.commit('addPoints', sellerId);
-    };
-    const resetGame = () => {
-  store.commit('resetGame');
-};
-const sellersSortedByPoints = computed(() => {
-      return [...store.state.sellers].sort((a, b) => b.points - a.points);
-    });
-
-    const selectImage = (imageId: string, sellerId: string) => {
-      console.log('Image ID:', imageId);  // Depuración
-      console.log('Seller ID:', sellerId);  // Depuración
-      
-      if (selectedImageId.value === imageId) {
-        selectedImageId.value = null;  // Desseleccionar si se vuelve a hacer clic
-      } else {
-        selectedImageId.value = imageId;  // Actualizar el ID de la imagen seleccionada
-        selectedSeller.value = sellerId;  // Actualizar el vendedor seleccionado
-      }
-    };
-    const endRound = () => {
-  if (selectedSeller.value) {
-    store.commit('addPoints', selectedSeller.value); // Sumar puntos al finalizar la ronda
-  }
-  store.commit('incrementRound'); // Avanzar la ronda
-  query.value = ''; // Limpiar la consulta
-  imageItems.value = []; // Limpiar las imágenes
-  selectedSeller.value = null; // Limpiar el vendedor seleccionado
-  selectedImageId.value = null; // Limpiar la imagen seleccionada
-};
-
-    return {
-      query,
-      imageItems,
-      loadImages,
-      addPoints,
-      handleImageError,
-      winner,
-      resetGame,
-      round,
-      endRound,
-      selectedImages,
-      selectImage,
-      sellersSortedByPoints,
-      selectedSeller,
-      selectedImageId
-    };
-  }
+        const handleImageError = (id: string) => {
+            const index = imageItems.value.findIndex(item => item.id === id);
+            if (index !== -1 && extraImages.value.length > 0) {
+                const [replacement] = extraImages.value.splice(0, 1);
+                imageItems.value.splice(index, 1, replacement);
+            }
+        };
+       
+        const addPoints = (sellerId: string) => {
+            store.commit('game/addPoints', sellerId);
+        };
+       
+        const sellersSortedByPoints = computed(() => {
+            return [...store.state.sellers.sellers].sort((a, b) => b.points - a.points);
+        });
+        
+        const selectImage = (imageId: string, sellerId: string) => {
+            console.log('Image ID:', imageId); // Depuración
+            console.log('Seller ID:', sellerId); // Depuración
+            if (selectedImageId.value === imageId) {
+                selectedImageId.value = null; // Desseleccionar si se vuelve a hacer clic
+            }
+            else {
+                selectedImageId.value = imageId; // Actualizar el ID de la imagen seleccionada
+                selectedSeller.value = sellerId; // Actualizar el vendedor seleccionado
+            }
+        };
+        
+        const endRound = () => {
+            if (selectedSeller.value) {
+                store.dispatch('addPoints', selectedSeller.value); // Sumar puntos al finalizar la ronda
+            }
+            store.commit('incrementRound'); // Avanzar la ronda
+            query.value = ''; // Limpiar la consulta
+            imageItems.value = []; // Limpiar las imágenes
+            selectedSeller.value = null; // Limpiar el vendedor seleccionado
+            selectedImageId.value = null; // Limpiar la imagen seleccionada
+        };
+        return {
+            query,
+            imageItems,
+            loadImages,
+            addPoints,
+            handleImageError,
+            round,
+            endRound,
+            selectedImages,
+            selectImage,
+            sellersSortedByPoints,
+            selectedSeller,
+            selectedImageId,
+            winner
+        };
+    },
 };
 </script>
 <style scoped>

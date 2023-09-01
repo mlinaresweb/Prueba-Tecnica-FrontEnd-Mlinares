@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-// const API_KEY = 'AIzaSyCI8Yw0qHCKBZWBSZBURRVuNb9d5JeWyds';
-// const SEARCH_ENGINE_ID = 'c6249d1709900402d';
-const API_KEY = 'AIzaSyD9dne1BnygPKist4MK4sJJlTn3LkCyP1E';
-const SEARCH_ENGINE_ID = '715c3e4a3ac3f4c6a';
+const API_KEY = 'AIzaSyBksJVJTPP3iiuWjwH44fkT7o7xfe6yXXU';
+const SEARCH_ENGINE_ID = 'c6249d1709900402d';
+// const API_KEY = 'AIzaSyD9dne1BnygPKist4MK4sJJlTn3LkCyP1E';
+// const SEARCH_ENGINE_ID = '715c3e4a3ac3f4c6a';
 
 function hashString(str: string): string {
   let hash = 0;
