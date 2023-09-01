@@ -127,14 +127,16 @@ const sellersSortedByPoints = computed(() => {
       }
     };
     const endRound = () => {
-      if (selectedSeller.value) {
-        store.commit('addPoints', selectedSeller.value); // Sumar puntos al finalizar la ronda
-      }
-      store.commit('incrementRound'); // Avanzar la ronda
-      query.value = ''; // Limpiar la consulta
-      imageItems.value = []; // Limpiar las imágenes
-      selectedSeller.value = null; // Limpiar el vendedor seleccionado
-    };
+  if (selectedSeller.value) {
+    store.commit('addPoints', selectedSeller.value); // Sumar puntos al finalizar la ronda
+  }
+  store.commit('incrementRound'); // Avanzar la ronda
+  query.value = ''; // Limpiar la consulta
+  imageItems.value = []; // Limpiar las imágenes
+  selectedSeller.value = null; // Limpiar el vendedor seleccionado
+  selectedImageId.value = null; // Limpiar la imagen seleccionada
+};
+
     return {
       query,
       imageItems,
