@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input v-model="query" @input="loadImages" />
+    <input :value="query" @input="updateQueryAndLoadImages" />
     <div class="image-container">
       <div class="image-item" v-for="item in imageItems.slice(0, 5)" :key="item.id">
   <img
@@ -17,21 +17,13 @@
       <p>Ronda: {{ round }}</p>
       <button @click="endRound">Finalizar ronda</button>
     </div>
-    <div>
-      <h2>Ranking de Vendedores</h2>
-      <ul>
-        <li v-for="seller in sellersSortedByPoints" :key="seller.id">
-          {{ seller.name }}: {{ seller.points }}
-        </li>
-      </ul>
-    </div>
   </div>
 </template>
 
 
 
 <script lang="ts">
-import { ref, computed } from 'vue';
+import {  computed } from 'vue';
 import { useStore } from 'vuex';
 import { fetchImages } from '../services/googleImageService';
 import { ImageItem } from "../store/types/types";
@@ -40,14 +32,14 @@ import { ImageItem } from "../store/types/types";
 export default {
     setup() {
         const store = useStore();
-        const query = ref('');
-        const imageItems = ref<ImageItem[]>([]);
-        const extraImages = ref<ImageItem[]>([]);
+        const query = computed(() => store.state.images.query);
+        const imageItems = computed(() => store.state.images.imageItems);
+        const extraImages = computed(() => store.state.images.extraImages);
         const round = computed(() => store.state.game.round);
         const selectedImages = computed(() => store.state.images.selectedImages);
-        const selectedSeller = ref<string | null>(null); // Nuevo estado para almacenar el vendedor seleccionado temporalmente
-        const selectedImageId = ref<string | null>(null); // Nuevo estado para almacenar el ID de la imagen seleccionada
-          const winner = computed(() => store.state.game.winner); // Nueva propiedad computada para el ganador
+        const selectedSeller = computed(() => store.state.game.selectedSeller);
+        const selectedImageId = computed(() => store.state.game.selectedImageId);
+          const winner = computed(() => store.state.game.winner); 
 
         const isValidImage = async (url: string) => {
             return new Promise<boolean>((resolve, reject) => {
@@ -57,71 +49,77 @@ export default {
                 img.src = url;
             });
         };
-       
+
+      const setNewQuery = (newQuery: string) => {
+      store.commit('setQuery', newQuery);
+    };
+
         const loadImages = async () => {
-          if (winner.value) {
-                alert("El juego ha terminado, no se pueden cargar más imágenes.");
-                return; // Terminar la función si hay un ganador
-            }
-            if (query.value) {
-                let images = await fetchImages(query.value, 10);
-                const sellers: any = store.state.sellers.sellers;
-                images = await Promise.all(images.map(async (image: ImageItem) => {
-                    if (await isValidImage(image.url)) {
-                        return image;
-                    }
-                    return null;
-                }));
-                images = images.filter((image: ImageItem | null) => image !== null);
-                imageItems.value = images.map((image: ImageItem, index: number) => {
-                    return {
-                        id: image.id,
-                        url: image.url,
-                        seller: sellers[index % sellers.length]
-                    };
-                });
-                extraImages.value = imageItems.value.slice(5);
-            }
-        };
-        
-        const handleImageError = (id: string) => {
-            const index = imageItems.value.findIndex(item => item.id === id);
-            if (index !== -1 && extraImages.value.length > 0) {
-                const [replacement] = extraImages.value.splice(0, 1);
-                imageItems.value.splice(index, 1, replacement);
-            }
-        };
+  if (winner.value) {
+    alert("El juego ha terminado, no se pueden cargar más imágenes.");
+    return;
+  }
+  if (query.value) {
+    let images = await fetchImages(query.value, 10);
+    const sellers: any = store.state.sellers.sellers;
+    images = await Promise.all(images.map(async (image: ImageItem) => {
+      if (await isValidImage(image.url)) {
+        return image;
+      }
+      return null;
+    }));
+    images = images.filter((image: ImageItem | null) => image !== null);
+    
+    const mappedImages = images.map((image: ImageItem, index: number) => {
+      return {
+        id: image.id,
+        url: image.url,
+        seller: sellers[index % sellers.length]
+      };
+    });
+    store.commit('setImageItems', mappedImages);  
+
+    const extraImgs = store.state.images.imageItems.slice(5);
+      store.commit('setExtraImages', extraImgs);  
+  }
+};
+const updateQueryAndLoadImages = ($event: Event) => {
+  const target = $event.target as HTMLInputElement | null; // Hacemos un "type assertion" aquí
+  if (target !== null) {
+    setNewQuery(target.value);
+    loadImages();
+  }
+};
+const handleImageError = (id: string) => {
+  const index = store.state.images.imageItems.findIndex((item: ImageItem) => item.id === id);  
+  if (index !== -1 && extraImages.value.length > 0) {
+    const [replacement] = extraImages.value.splice(0, 1);
+    const newImageItems = [...store.state.images.imageItems];
+    newImageItems.splice(index, 1, replacement);
+    store.commit('setImageItems', newImageItems);  
+  }
+};
+
        
         const addPoints = (sellerId: string) => {
-            store.commit('game/addPoints', sellerId);
+          store.commit('setSelectedSeller', sellerId);
+            store.commit('addPoints', sellerId);
         };
-       
-        const sellersSortedByPoints = computed(() => {
-            return [...store.state.sellers.sellers].sort((a, b) => b.points - a.points);
-        });
+   
         
         const selectImage = (imageId: string, sellerId: string) => {
-            console.log('Image ID:', imageId); // Depuración
-            console.log('Seller ID:', sellerId); // Depuración
-            if (selectedImageId.value === imageId) {
-                selectedImageId.value = null; // Desseleccionar si se vuelve a hacer clic
-            }
-            else {
-                selectedImageId.value = imageId; // Actualizar el ID de la imagen seleccionada
-                selectedSeller.value = sellerId; // Actualizar el vendedor seleccionado
-            }
+          store.commit('setSelectedImageId', imageId);
+            store.commit('setSelectedSeller', sellerId);
         };
         
         const endRound = () => {
             if (selectedSeller.value) {
-                store.dispatch('addPoints', selectedSeller.value); // Sumar puntos al finalizar la ronda
+                store.dispatch('addPoints', selectedSeller.value);
             }
-            store.commit('incrementRound'); // Avanzar la ronda
-            query.value = ''; // Limpiar la consulta
-            imageItems.value = []; // Limpiar las imágenes
-            selectedSeller.value = null; // Limpiar el vendedor seleccionado
-            selectedImageId.value = null; // Limpiar la imagen seleccionada
-        };
+            store.commit('incrementRound');
+            store.commit('setQuery', '');
+            store.commit('setImageItems', []);
+        }
         return {
             query,
             imageItems,
@@ -132,10 +130,11 @@ export default {
             endRound,
             selectedImages,
             selectImage,
-            sellersSortedByPoints,
             selectedSeller,
             selectedImageId,
-            winner
+            winner,
+            setNewQuery,
+            updateQueryAndLoadImages
         };
     },
 };
@@ -154,7 +153,7 @@ export default {
 }
 
 .image {
-  width: 100px; /* o cualquier otro tamaño que te parezca adecuado */
+  width: 100px; 
   height: 100px;
   object-fit: cover;
 }

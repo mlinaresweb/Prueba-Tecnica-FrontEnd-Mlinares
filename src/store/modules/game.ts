@@ -4,11 +4,15 @@ import { RootState, Seller } from '../types/types';
 export interface GameState {
     winner: Seller | null;
     round: number;
+    selectedSeller: string | null;
+    selectedImageId: string | null;
 }
 
 const state: GameState = {
     winner: null,
     round: 1,
+    selectedSeller: null,
+    selectedImageId: null
 };
 
 const mutations: MutationTree<GameState> = {
@@ -26,6 +30,12 @@ const mutations: MutationTree<GameState> = {
     },
     incrementRound(state) {
         state.round++;
+    },
+    setSelectedSeller(state, sellerId: string | null) {
+        state.selectedSeller = sellerId;
+    },
+    setSelectedImageId(state, imageId: string | null) {
+        state.selectedImageId = imageId;
     },
 };
 

@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <ImageSelector />
+    <RankingSellers></RankingSellers>
     <WinnerDisplay></WinnerDisplay>
   </div>
 </template>
@@ -9,11 +10,13 @@
 import { defineComponent } from 'vue';
 import ImageSelector from './components/ImageSelector.vue'; 
 import WinnerDisplay from './components/WinnerDisplay.vue';
+import RankingSellers from './components/RankingSellers.vue';
 
 export default defineComponent({
   components: {
     ImageSelector,
-    WinnerDisplay
+    WinnerDisplay,
+    RankingSellers
   }
 });
 </script>
