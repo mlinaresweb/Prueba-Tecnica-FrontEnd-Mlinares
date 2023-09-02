@@ -16,9 +16,11 @@
   export default {
     setup() {
       const store = useStore();
+      const { sellers } = store.state.sellers;
+
       const sellersSortedByPoints = computed(() => {
-        return [...store.state.sellers.sellers].sort((a, b) => b.points - a.points);
-      });
+      return [...sellers].sort((a, b) => b.points - a.points);
+    });
   
       return {
         sellersSortedByPoints

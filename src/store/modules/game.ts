@@ -1,6 +1,9 @@
 import { MutationTree, ActionTree } from 'vuex';
 import { RootState, Seller } from '../types/types';
 
+const WINNING_POINTS = 20;
+const INITIAL_POINTS = 0;
+
 export interface GameState {
     winner: Seller | null;
     round: number;
@@ -16,11 +19,12 @@ const state: GameState = {
 };
 
 const mutations: MutationTree<GameState> = {
+    // Adds points to a seller if there is no winner yet
     addPoints(state, seller: Seller) {
         if (seller && !state.winner) {
           seller.points += 3;
         }
-      },
+    },
     setWinner(state, seller: Seller) {
         state.winner = seller;
     },
@@ -42,20 +46,20 @@ const mutations: MutationTree<GameState> = {
 const actions: ActionTree<GameState, RootState> = {
     addPoints({ commit, state, rootState }, sellerId: string) {
         if (state.winner) return;
-    
+
         const seller = rootState.sellers.sellers.find((s: Seller) => s.id === sellerId);
     
         if (seller) {
           commit('addPoints', seller); 
     
-          if (seller.points >= 20) {
+          if (seller.points >= WINNING_POINTS) {
             commit('setWinner', seller);
           }
         }
-      },
+    },
     resetGame({ commit, rootState }) {
         rootState.sellers.sellers.forEach((seller: Seller) => {
-            seller.points = 0;
+            seller.points = INITIAL_POINTS;
         });
         commit('resetGame');
     },
