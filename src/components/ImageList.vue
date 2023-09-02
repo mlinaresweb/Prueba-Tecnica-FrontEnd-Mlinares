@@ -1,15 +1,15 @@
+<!-- Vue component -->
 <template>
     <div class="image-container">
       <div
         class="image-item"
-        v-for="item in imageItems.slice(0, 5)"
+        v-for="item in visibleImages"
         :key="item.id"
       >
         <img
           class="image"
           :class="{ selected: item.id === selectedImageId }"
           :src="item.url"
-          @error="handleImageError(item.id)"
           @click="selectImage(item.id, item.seller.id)"
         />
         <p>{{ item.seller.name }}: {{ item.seller.points }}</p>
@@ -20,39 +20,33 @@
   <script lang="ts">
   import { computed } from 'vue';
   import { useStore } from 'vuex';
-  import { ImageItem } from "../store/types/types";
-
+  
+  
   export default {
     setup() {
       const store = useStore();
+  
+      // Computed properties
       const imageItems = computed(() => store.state.images.imageItems);
-      const extraImages = computed(() => store.state.images.extraImages);
       const selectedImageId = computed(() => store.state.game.selectedImageId);
+      const visibleImages = computed(() => imageItems.value.slice(0, 5));
   
-      const handleImageError = (id: string) => {
-  const index = store.state.images.imageItems.findIndex((item: ImageItem) => item.id === id);  
-  if (index !== -1 && extraImages.value.length > 0) {
-    const [replacement] = extraImages.value.splice(0, 1);
-    const newImageItems = [...store.state.images.imageItems];
-    newImageItems.splice(index, 1, replacement);
-    store.commit('setImageItems', newImageItems);  
-  }
-};
-  
+      // Selects an image and the corresponding seller
       const selectImage = (imageId: string, sellerId: string) => {
         store.commit('setSelectedImageId', imageId);
         store.commit('setSelectedSeller', sellerId);
       };
   
       return {
-        imageItems,
+        visibleImages,
         selectedImageId,
-        handleImageError,
         selectImage,
       };
     },
   };
   </script>
+  
+  
   <style scoped>
 .image-container {
   display: flex;

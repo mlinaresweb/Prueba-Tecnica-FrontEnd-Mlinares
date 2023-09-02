@@ -12,6 +12,7 @@ export interface RootState {
 export interface ImageItem {
     id: string;
     url: string;
+    link:string;
     seller: {
       id: string;
       name: string;
