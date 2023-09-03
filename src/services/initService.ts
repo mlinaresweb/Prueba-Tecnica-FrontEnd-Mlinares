@@ -4,9 +4,9 @@ import store from '../store';
 
 export async function initSellers() {
   try {
-    const response = await getSellers();
-    if (response.data && response.data.length >= 5) {
-      const sellers = response.data.slice(0, 5).map((seller: AlegraSellerResponse) => ({ ...seller, points: 0 }));
+    const sellersData = await getSellers();  // getSellers ya devuelve AlegraSellerResponse[]
+    if (sellersData && sellersData.length >= 5) {
+      const sellers = sellersData.slice(0, 5).map((seller: AlegraSellerResponse) => ({ ...seller, points: 0 }));
       store.commit('setSellers', sellers);
     } else {
       console.error('No hay suficientes vendedores');

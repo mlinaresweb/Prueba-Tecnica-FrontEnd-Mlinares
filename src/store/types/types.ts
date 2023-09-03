@@ -39,4 +39,7 @@ export interface ImageItem {
     client: { id: number };
     seller: { id: string };
   }
+  export interface GoogleCustomSearchResponse {
+    items: ImageItem[];
+  }
   

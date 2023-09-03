@@ -21,7 +21,7 @@
       const sellersSortedByPoints = computed(() => {
       return [...sellers].sort((a, b) => b.points - a.points);
     });
-  
+    
       return {
         sellersSortedByPoints
       };

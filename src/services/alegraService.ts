@@ -1,34 +1,28 @@
-import axios, { AxiosResponse } from 'axios';
+import alegraApi from './api/alegraApiConfig';
 import { AlegraSellerResponse, Factura } from '../store/types/types';
 
-const ALEGRA_API = 'https://api.alegra.com/api/v1/sellers';
-const ALEGRA_AUTH = {
-  Authorization: `Basic ${btoa('ghaedesigns@gmail.com:c4c82a34039d777b63c4')}`,
-};
-
-export const getSellers = async (): Promise<AxiosResponse<AlegraSellerResponse[]>> => {
+export const getSellers = async (): Promise<AlegraSellerResponse[]> => {
   try {
-    const response = await axios.get<AlegraSellerResponse[]>(ALEGRA_API, {
-      headers: ALEGRA_AUTH,
-    });
+    const response = await alegraApi.get<AlegraSellerResponse[]>('/sellers');
 
     if (!response.data || response.data.length === 0) {
       throw new Error('Respuesta vacía del servidor');
     }
 
-    return response;
+    return response.data;
   } catch (error) {
     console.error("Error al obtener vendedores:", error);
     throw new Error('Error al obtener vendedores');
   }
 };
+
 export const createItem = async (name: string, price: number): Promise<number> => {
   try {
     const data = {
       name,
       price: [{ price }]
     };
-    const response = await axios.post('https://api.alegra.com/api/v1/items', data, { headers: ALEGRA_AUTH });
+    const response = await alegraApi.post('/items', data);
     return response.data.id; 
   } catch (error) {
     console.error("Error al crear ítem:", error);
@@ -38,7 +32,7 @@ export const createItem = async (name: string, price: number): Promise<number> =
 
 export const createFactura = async (data: Factura): Promise<number> => {
   try {
-    const response = await axios.post('https://api.alegra.com/api/v1/invoices', data, { headers: ALEGRA_AUTH });
+    const response = await alegraApi.post('/invoices', data);
     return response.data.id; 
   } catch (error) {
     console.error("Error al crear factura:", error);
@@ -48,7 +42,7 @@ export const createFactura = async (data: Factura): Promise<number> => {
 
 export const getFactura = async (id: string) => {
   try {
-    const response = await axios.get(`https://api.alegra.com/api/v1/invoices/${id}`, { headers: ALEGRA_AUTH });
+    const response = await alegraApi.get(`/invoices/${id}`);
     return response.data;
   } catch (error) {
     console.error("Error al obtener factura:", error);
