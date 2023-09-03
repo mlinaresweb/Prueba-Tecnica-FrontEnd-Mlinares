@@ -9,13 +9,15 @@ export interface GameState {
     round: number;
     selectedSeller: string | null;
     selectedImageId: string | null;
+    roundHistory: { round: number, winner: Seller, points: number }[];
 }
 
 const state: GameState = {
     winner: null,
     round: 1,
     selectedSeller: null,
-    selectedImageId: null
+    selectedImageId: null,
+    roundHistory: [],
 };
 
 const mutations: MutationTree<GameState> = {
@@ -31,6 +33,7 @@ const mutations: MutationTree<GameState> = {
     resetGame(state) {
         state.winner = null;
         state.round = 1;
+        state.roundHistory = [];  
     },
     incrementRound(state) {
         state.round++;
@@ -45,6 +48,9 @@ const mutations: MutationTree<GameState> = {
         state.selectedSeller = null;
         state.selectedImageId = null;
       },
+      addRoundHistory(state, payload: { winner: Seller, points: number }) {
+        state.roundHistory.push({ round: state.round, winner: payload.winner, points: payload.points });  // <-- Agregar el ganador y los puntos de la ronda al historial
+    },
 };
 
 const actions: ActionTree<GameState, RootState> = {
@@ -54,11 +60,15 @@ const actions: ActionTree<GameState, RootState> = {
         const seller = rootState.sellers.sellers.find((s: Seller) => s.id === sellerId);
     
         if (seller) {
+          const pointsBefore = seller.points;
           commit('addPoints', seller); 
     
           if (seller.points >= WINNING_POINTS) {
             commit('setWinner', seller);
           }
+
+          const pointsGained = seller.points - pointsBefore;
+          commit('addRoundHistory', { winner: seller, points: pointsGained });  // <-- Agregar al historial
         }
     },
     resetGame({ commit, rootState }) {

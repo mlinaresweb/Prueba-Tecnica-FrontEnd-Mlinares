@@ -4,6 +4,7 @@
       <ImageList></ImageList>
       <RoundsGame></RoundsGame>
       <RankingSellers></RankingSellers>
+      <RoundHistorial></RoundHistorial>
       <WinnerDisplay></WinnerDisplay>
     </div>
   </template>
@@ -14,6 +15,7 @@
   import WinnerDisplay from '../components/WinnerDisplay.vue';
   import RankingSellers from '../components/RankingSellers.vue';
   import RoundsGame from '../components/RoundsGame.vue';
+  import RoundHistorial from '../components/RoundHistorial.vue'; 
   import ImageList from '../components/ImageList.vue'; 
   
   export default defineComponent({
@@ -22,7 +24,8 @@
       WinnerDisplay,
       RankingSellers,
       RoundsGame,
-      ImageList
+      ImageList,
+      RoundHistorial
     }
   });
   </script>

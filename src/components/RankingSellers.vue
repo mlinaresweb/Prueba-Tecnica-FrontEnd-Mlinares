@@ -21,8 +21,6 @@
     </ul>
   </div>
 </template>
-
-
   
   <script lang="ts">
   import { computed } from 'vue';
@@ -43,7 +41,9 @@
     },
   };
   </script>
-  <style scoped>.ranking-container {
+  
+  <style scoped>
+  .ranking-container {
     width: 100%;
     max-width: 600px;
     margin: auto;
