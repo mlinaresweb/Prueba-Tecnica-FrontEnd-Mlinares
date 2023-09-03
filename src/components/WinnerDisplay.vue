@@ -10,7 +10,7 @@
 <script lang="ts">
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-import { Factura } from '../store/types/types'; 
+import { Factura, Seller } from '../store/types/types'; 
 
 export default {
   setup() {
@@ -27,10 +27,10 @@ export default {
     const dueDate = new Date(currentDate); 
     dueDate.setMonth(currentDate.getMonth() + 1); 
 
-    const sellerPoints = winner.value.points; 
+    const totalPoints = store.state.sellers.sellers.reduce((total: number, seller: Seller) => total + seller.points, 0);
 
     const facturaData: Factura = {
-      items: [{ id: 1, price: sellerPoints, quantity: 1 }], 
+      items: [{ id: 1, price: totalPoints, quantity: 1 }],  
       dueDate,
       date: currentDate,
       client: { id: 1 },
@@ -45,6 +45,7 @@ export default {
     }
   }
 };
+
 
 
 const viewFactura = async () => {
