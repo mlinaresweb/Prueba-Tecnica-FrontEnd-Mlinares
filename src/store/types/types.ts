@@ -32,4 +32,11 @@ export interface ImageItem {
     status: string;
     points: number;
   }
+  export interface Factura {
+    items: Array<{ id: number, price: number, quantity: 1 }>;
+    dueDate: Date;
+    date: Date;
+    client: { id: number };
+    seller: { id: string };
+  }
   

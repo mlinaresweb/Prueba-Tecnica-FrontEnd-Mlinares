@@ -3,7 +3,7 @@ import { ImageItem } from '../store/types/types';
 import { hashString } from '../utils/stringUtils';
 
 
-const API_KEY = 'AIzaSyBLJJpZRnr2Ig48B7JCAr5n4zbukbRkzA8';
+const API_KEY = 'AIzaSyCI8Yw0qHCKBZWBSZBURRVuNb9d5JeWyds';
 const SEARCH_ENGINE_ID = 'c6249d1709900402d';
 
 // Tipo de respuesta de Google Custom Search
