@@ -21,6 +21,7 @@ export default {
 
     const resetGame = () => {
       store.dispatch('resetGame');
+      store.commit('setQuery', '');
     };
 
     return {
