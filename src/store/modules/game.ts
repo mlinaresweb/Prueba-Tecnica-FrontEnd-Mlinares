@@ -41,6 +41,10 @@ const mutations: MutationTree<GameState> = {
     setSelectedImageId(state, imageId: string | null) {
         state.selectedImageId = imageId;
     },
+    deselectSellerAndImage(state) {
+        state.selectedSeller = null;
+        state.selectedImageId = null;
+      },
 };
 
 const actions: ActionTree<GameState, RootState> = {
@@ -66,6 +70,9 @@ const actions: ActionTree<GameState, RootState> = {
     incrementRound({ commit }) {
         commit('incrementRound');
     },
+    deselectSellerAndImage({ commit }) {
+        commit('deselectSellerAndImage');
+      },
 };
 
 export default {

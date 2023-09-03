@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { AlegraSellerResponse, Factura } from '../store/types/types'; // Importa la interfaz desde donde corresponda
+import { AlegraSellerResponse, Factura } from '../store/types/types';
 
 const ALEGRA_API = 'https://api.alegra.com/api/v1/sellers';
 const ALEGRA_AUTH = {
@@ -29,7 +29,7 @@ export const createItem = async (name: string, price: number): Promise<number> =
       price: [{ price }]
     };
     const response = await axios.post('https://api.alegra.com/api/v1/items', data, { headers: ALEGRA_AUTH });
-    return response.data.id; // Devuelve la ID del ítem recién creado
+    return response.data.id; 
   } catch (error) {
     console.error("Error al crear ítem:", error);
     throw new Error('Error al crear ítem');
@@ -39,7 +39,7 @@ export const createItem = async (name: string, price: number): Promise<number> =
 export const createFactura = async (data: Factura): Promise<number> => {
   try {
     const response = await axios.post('https://api.alegra.com/api/v1/invoices', data, { headers: ALEGRA_AUTH });
-    return response.data.id; // Devuelve la ID de la factura recién creada
+    return response.data.id; 
   } catch (error) {
     console.error("Error al crear factura:", error);
     throw new Error('Error al crear factura');

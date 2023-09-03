@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input :value="query" @input="handleInput" />
+    <input :value="query" @input="updateQuery" @keyup.enter="handleInput" />
   </div>
 </template>
 
@@ -67,17 +67,23 @@ export default {
     };
 
     // Handle input event for the search query
-    const handleInput = ($event: Event) => {
-      const target = $event.target as HTMLInputElement | null;
-      if (target) {
-        setNewQuery(target.value);
-        loadImages();
-      }
-    };
+    const handleInput = async ($event: Event) => {
+  const target = $event.target as HTMLInputElement | null;
+  if (target) {
+    await loadImages();  
+  }
+};
+const updateQuery = ($event: Event) => {
+  const target = $event.target as HTMLInputElement | null;
+  if (target) {
+    setNewQuery(target.value);
+  }
+};
 
     return {
       query,
       handleInput,
+      updateQuery
     };
   },
 };
