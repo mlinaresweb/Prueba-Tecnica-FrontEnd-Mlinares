@@ -1,69 +1,36 @@
-<template>
-  <div>
-    <label>
-      <input type="radio" value="google" v-model="selectedApi">
-      Google
-    </label>
-    <label>
-      <input type="radio" value="unsplash" v-model="selectedApi">
-      Unsplash
-    </label>
-    <input :value="query" @input="updateQuery" @keyup.enter="handleInput" />
-  </div>
+<template> 
+    <div class="relative w-full">
+      <input :value="query" @input="updateQuery" @keyup.enter="handleInput" autocomplete="off" type="search" id="search-dropdown" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-50 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Search...">
+      <button type="submit" @click="handleInput" class="absolute top-0 right-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-0 dark:bg-blue-600 dark:hover:bg-blue-700">
+    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+    </svg>
+    <span class="sr-only">Search</span>
+</button>
+
+        </div>
 </template>
 
 
 <script lang="ts">
-import { computed, Ref, ref } from 'vue';
+import { computed, Ref, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 import { fetchImages } from '../services/googleImageService';
 import { fetchUnsplashImages } from '../services/unplashService';
-import { ImageItem, Seller } from '../store/types/types';
+import { ImageItem } from '../store/types/types';
+import useImageFilterAndMapping from '../composables/useImageFilterAndMapping';
 
-export default {
-  setup() {
+export default defineComponent({
+  props: {
+    selectedApi: String 
+  },
+  setup(props) {
     const store = useStore();
-
+    const { filterAndMapImages } = useImageFilterAndMapping();
     // Computed properties for query and winner state
     const query: Ref<string> = computed(() => store.state.images.query);
     const winner: Ref<boolean> = computed(() => store.state.game.winner);
     
-    const selectedApi = ref('google');
-
-    // Update query in Vuex state
-    const setNewQuery = (newQuery: string) => {
-      store.commit('setQuery', newQuery);
-    };
-
-    // Validate if an image URL is accessible
-    const isValidImage = async (url: string): Promise<boolean> => {
-      return new Promise<boolean>((resolve) => {
-        const img = new Image();
-        img.onload = () => resolve(true);
-        img.onerror = () => resolve(false);
-        img.src = url;
-      });
-    };
-
-    // Filter invalid images and assign sellers to images
-    const filterAndMapImages = async (images: ImageItem[]): Promise<ImageItem[]> => {
-      const sellers = store.state.sellers.sellers;
-      const validImages = await Promise.all(
-        images.map(async (image) => (await isValidImage(image.url)) ? image : null)
-      );
-      const filteredImages = validImages.filter(Boolean) as ImageItem[];
-
-      return assignSellersToImages(filteredImages, sellers);
-    };
-
-    // Assign sellers to the images
-    const assignSellersToImages = (images: ImageItem[], sellers: Seller[]) => {
-      return images.map((image, index) => ({
-        ...image,
-        seller: sellers[index % sellers.length],
-      }));
-    };
-
     // Load new images based on the query
     const loadImages = async () => {
   if (winner.value) {
@@ -72,13 +39,11 @@ export default {
   }
   if (query.value) {
     let images: ImageItem[] = [];  
-    if (selectedApi.value === 'google') {
+    if (props.selectedApi === 'google') {
       images = await fetchImages(query.value, 10);
-    } else if (selectedApi.value === 'unsplash') {
+    } else if (props.selectedApi === 'unsplash') {
       images = await fetchUnsplashImages(query.value, 10);
     }
-
-    // Verificamos si images tiene elementos antes de continuar
     if (images.length > 0) {
       const mappedImages = await filterAndMapImages(images);
       store.commit('setImageItems', mappedImages);
@@ -87,6 +52,10 @@ export default {
   }
 };
 
+// Update query in Vuex state
+const setNewQuery = (newQuery: string) => {
+      store.commit('setQuery', newQuery);
+    };
 
     // Handle input event for the search query
     const handleInput = async ($event: Event) => {
@@ -95,6 +64,7 @@ export default {
     await loadImages();  
   }
 };
+
 const updateQuery = ($event: Event) => {
   const target = $event.target as HTMLInputElement | null;
   if (target) {
@@ -106,10 +76,9 @@ const updateQuery = ($event: Event) => {
       query,
       handleInput,
       updateQuery,
-      selectedApi
     };
   },
-};
+});
 </script>
 
 

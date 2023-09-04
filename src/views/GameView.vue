@@ -1,6 +1,6 @@
 <template>
     <div>
-      <ImageSelector />
+      <SearchBar></SearchBar>
       <ImageList></ImageList>
       <RoundsGame></RoundsGame>
       <RankingSellers></RankingSellers>
@@ -11,22 +11,22 @@
   
   <script lang="ts">
   import { defineComponent } from 'vue';
-  import ImageSelector from '../components/ImageSelector.vue'; 
   import WinnerDisplay from '../components/WinnerDisplay.vue';
   import RankingSellers from '../components/RankingSellers.vue';
   import RoundsGame from '../components/RoundsGame.vue';
   import RoundHistorial from '../components/RoundHistorial.vue'; 
   import ImageList from '../components/ImageList.vue'; 
+import SearchBar from '@/components/searchBar.vue';
   
   export default defineComponent({
     components: {
-      ImageSelector,
-      WinnerDisplay,
-      RankingSellers,
-      RoundsGame,
-      ImageList,
-      RoundHistorial
-    }
+    WinnerDisplay,
+    RankingSellers,
+    RoundsGame,
+    ImageList,
+    RoundHistorial,
+    SearchBar
+}
   });
   </script>
   
