@@ -1,13 +1,23 @@
 <template>
   <div>
+    <label>
+      <input type="radio" value="google" v-model="selectedApi">
+      Google
+    </label>
+    <label>
+      <input type="radio" value="unsplash" v-model="selectedApi">
+      Unsplash
+    </label>
     <input :value="query" @input="updateQuery" @keyup.enter="handleInput" />
   </div>
 </template>
 
+
 <script lang="ts">
-import { computed, Ref } from 'vue';
+import { computed, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 import { fetchImages } from '../services/googleImageService';
+import { fetchUnsplashImages } from '../services/unplashService';
 import { ImageItem, Seller } from '../store/types/types';
 
 export default {
@@ -17,6 +27,8 @@ export default {
     // Computed properties for query and winner state
     const query: Ref<string> = computed(() => store.state.images.query);
     const winner: Ref<boolean> = computed(() => store.state.game.winner);
+    
+    const selectedApi = ref('google');
 
     // Update query in Vuex state
     const setNewQuery = (newQuery: string) => {
@@ -54,17 +66,27 @@ export default {
 
     // Load new images based on the query
     const loadImages = async () => {
-      if (winner.value) {
-        alert("El juego ha terminado, no se pueden cargar más imágenes.");
-        return;
-      }
-      if (query.value) {
-        const images = await fetchImages(query.value, 10);
-        const mappedImages = await filterAndMapImages(images);
-        store.commit('setImageItems', mappedImages);
-        store.commit('setExtraImages', mappedImages.slice(5));
-      }
-    };
+  if (winner.value) {
+    alert("El juego ha terminado, no se pueden cargar más imágenes.");
+    return;
+  }
+  if (query.value) {
+    let images: ImageItem[] = [];  
+    if (selectedApi.value === 'google') {
+      images = await fetchImages(query.value, 10);
+    } else if (selectedApi.value === 'unsplash') {
+      images = await fetchUnsplashImages(query.value, 10);
+    }
+
+    // Verificamos si images tiene elementos antes de continuar
+    if (images.length > 0) {
+      const mappedImages = await filterAndMapImages(images);
+      store.commit('setImageItems', mappedImages);
+      store.commit('setExtraImages', mappedImages.slice(6));
+    }
+  }
+};
+
 
     // Handle input event for the search query
     const handleInput = async ($event: Event) => {
@@ -83,7 +105,8 @@ const updateQuery = ($event: Event) => {
     return {
       query,
       handleInput,
-      updateQuery
+      updateQuery,
+      selectedApi
     };
   },
 };

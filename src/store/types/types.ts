@@ -43,3 +43,8 @@ export interface ImageItem {
     items: ImageItem[];
   }
   
+  export interface UnsplashImage {
+    id: string;
+    urls: { small: string };
+    links: { html: string };
+  }

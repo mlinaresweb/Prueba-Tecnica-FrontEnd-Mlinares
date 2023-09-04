@@ -31,7 +31,7 @@ export default {
     const selectedImageId = computed(() => store.state.game.selectedImageId);
 
     // Filter to display only the first 5 image items
-    const visibleImages = computed(() => imageItems.value.slice(0, 5));
+    const visibleImages = computed(() => imageItems.value.slice(0, 6));
 
     // Function to check if an image is selected
     const isSelected = (id: string) => id === selectedImageId.value;
