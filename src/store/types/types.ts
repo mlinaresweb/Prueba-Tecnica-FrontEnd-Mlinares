@@ -31,6 +31,7 @@ export interface ImageItem {
     name: string;
     status: string;
     points: number;
+    imageUrl?: string;
   }
   export interface Factura {
     items: Array<{ id: number, price: number, quantity: 1 }>;

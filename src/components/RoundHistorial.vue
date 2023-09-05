@@ -1,5 +1,5 @@
 <template>
-  <div :class="containerClass">
+  <div class="base-container" :class="containerClass">
     <div class="header">
       
       <DropdownMenu
@@ -13,6 +13,8 @@
     </div>
     <ul v-if="isContentVisible" class="history-list">
       <li v-for="record in roundHistory" :key="record.round">
+        <!-- Añade la imagen aquí -->
+        <img :src="findSellerImage(record.winner.id)" alt="Vendedor" class="seller-image">
         Ronda {{ record.round }}: {{ record.winner.name }} ({{ record.points }} puntos)
       </li>
     </ul>
@@ -29,6 +31,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
+import { Seller } from '../store/types/types';
 import DropdownMenu from './DropdownMenu.vue';
 import ToggleButton from './ToggleButton.vue';
 import { useToggleVisibility } from '../composables/useToggleVisibility';
@@ -42,16 +45,21 @@ export default defineComponent({
     const { isContentVisible, toggleContentVisibility } = useToggleVisibility('RoundHistorial');
     const store = useStore();
     const roundHistory = computed(() => store.state.game.roundHistory);
+    const sellers = computed(() => store.state.sellers.sellers);
 
     const onChange = (value: string) => {
       emit('changeComponent', value);
     };
-
+    const findSellerImage = (id: string) => {
+  const seller = sellers.value.find((s: Seller) => s.id === id);
+  return seller ? seller.imageUrl : '../../public/seller1.png';
+}
     return {
       roundHistory,
       onChange,
       isContentVisible,
       toggleContentVisibility,
+      findSellerImage,
       containerClass: computed(() => {
         return isContentVisible.value ? 'history-container' : 'history-container minimized';
       }),
@@ -61,20 +69,17 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.history-container {
-  display: flex;
-  flex-direction: column;
-  width: 220px;
-  margin: 20px auto;
-  padding: 15px;
-  border-radius: 8px;
-  background-color: #f5f5f5;
-  color: black;
-  min-height: 306px;
+.seller-image {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
 }
 
-.history-container.minimized {
-  min-height: auto;
+.history-container {
+ 
+  flex-grow: 1;
+
 }
 
 .history-list {

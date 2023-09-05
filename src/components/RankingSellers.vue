@@ -1,7 +1,6 @@
 <template>
-  <div class="ranking-container">
+  <div class="base-container ranking-container">
     <div class="header">
-     
       <DropdownMenu
         :title="'Ranking de Vendedores'"
         :options="[
@@ -11,25 +10,38 @@
         @change="onChange"
       ></DropdownMenu>
     </div>
-    <ul v-if="isContentVisible" class="ranking-list">
-      <li class="ranking-item" v-for="seller in sellersSortedByPoints" :key="seller.id">
-        <div class="seller-info">
-          <span class="seller-name">{{ seller.name }}</span>
-          <span class="seller-points">{{ seller.points }} / 20</span>
-        </div>
-        <div class="progress-container">
-          <div class="progress-bar">
-            <div class="progress-fill" :style="{ width: `${(seller.points / 20) * 100}%` }"></div>
-          </div>
-        </div>
-      </li>
-    </ul>
+    <table v-if="isContentVisible" class="ranking-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Puntos</th>
+          <th>Progreso</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="seller in sellersSortedByPoints" :key="seller.id">
+          <td>{{ seller.name }}</td>
+          <td>{{ seller.points }} / 20</td>
+          <td>
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill" :style="{ width: `${(seller.points / 20) * 100}%` }"></div>
+      </div>
+      <div class="progress-labels">
+        <span class="progress-start">0%</span>
+        <span class="progress-end">{{ (seller.points / 20) * 100 }}%</span>
+      </div>
+    </div>
+  </td>
+        </tr>
+      </tbody>
+    </table>
     <div class="toggle-container">
-  <ToggleButton
-    :isContentVisible="isContentVisible"
-    :toggleContentVisibility="toggleContentVisibility"
-  />
-</div>
+      <ToggleButton
+        :isContentVisible="isContentVisible"
+        :toggleContentVisibility="toggleContentVisibility"
+      />
+    </div>
   </div>
 </template>
 
@@ -66,68 +78,61 @@ export default defineComponent({
   },
 });
 </script>
-  <style scoped>
-  .ranking-container {
-    display: flex;
-  flex-direction: column;
-    
-    margin: 20px auto;
-    padding: 15px;
-    border-radius: 8px;
-    background-color: #f5f5f5; 
-    color: black;
-  }
-  
-  .ranking-title {
-    font-size: 18px; 
-    margin-bottom: 12px;
-    text-align: center;
-  }
-  
-  .ranking-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .ranking-item {
+<style scoped>
+.ranking-container {
+  width: 60%;
+}
+
+.ranking-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.ranking-table th, .ranking-table td {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Especificar el ancho de las columnas */
+.ranking-table th:nth-child(1), .ranking-table td:nth-child(1) {
+  width: 10%; /* O la medida que desees */
+}
+
+.ranking-table th:nth-child(2), .ranking-table td:nth-child(2) {
+  width: 10%; /* O la medida que desees */
+}
+
+.ranking-table th:nth-child(3), .ranking-table td:nth-child(3) {
+  width: 70%; /* O la medida que desees */
+}
+
+.progress-container {
+  width: 100%;
+}
+
+.progress-bar {
+  height: 12px; /* altura más grande */
+  background: #eee;
+  border-radius: 6px;
+}
+.progress-labels {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 8px;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .seller-info {
-    display: flex;
-    justify-content: space-between;
-    width: 50%;
-  }
-  
-  .seller-name {
-    font-size: 14px;
-    font-weight: 600;
-  }
-  
-  .seller-points {
     font-size: 12px;
-    color: #777;
-  }
-  
-  .progress-container {
-    width: 45%;
-  }
-  
-  .progress-bar {
-    height: 6px;
-    background: #eee;
-    border-radius: 3px;
-  }
-  
-  .progress-fill {
-    height: 100%;
-    background: #3498db; 
-    border-radius: 3px;
   }
 
-  </style>
+  .progress-start {
+    margin-left: 2px; /* ajusta como prefieras */
+  }
+
+  .progress-end {
+    margin-right: 2px; /* ajusta como prefieras */
+  }
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, rgba(52,152,219,1) 0%, rgba(155,89,182,1) 100%);
+  border-radius: 6px;
+  transition: width 0.5s ease-in-out;
+}
+</style>

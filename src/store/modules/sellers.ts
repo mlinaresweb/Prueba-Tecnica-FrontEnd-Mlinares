@@ -19,6 +19,12 @@ const mutations: MutationTree<SellersState> = {
     setSellers(state, sellers: Seller[]) {
         state.sellers = sellers;
       },
+      updateSellerImage(state, payload: { id: string, imageUrl: string }) {
+        const seller = state.sellers.find(s => s.id === payload.id);
+        if (seller) {
+          seller.imageUrl = payload.imageUrl;
+        }
+      },
       ADD_FACTURA(state, factura: Factura) {
         state.facturas.push(factura);
       },

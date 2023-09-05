@@ -5,13 +5,16 @@
     </div>
     <div class="middle-section">
       <RoundsGame></RoundsGame>
+      
       <ImageList></ImageList>
       <RoundsButton></RoundsButton>
+     
       <WinnerDisplay></WinnerDisplay>
     </div>
     <div class="bottom-section">
       
-      <GameStats></GameStats>
+      <RankingSellers></RankingSellers>
+      <RoundHistorial></RoundHistorial>
     </div>
   </div>
 </template>
@@ -23,7 +26,8 @@ import ImageList from '../components/ImageList.vue';
 import BannerComponent from '@/components/BannerComponent.vue';
 import RoundsButton from '@/components/RoundsButton.vue';
 import RoundsGame from '@/components/RoundsGame.vue';
-import GameStats from '@/components/GameStats.vue';
+import RankingSellers from '@/components/RankingSellers.vue';
+import RoundHistorial from '@/components/RoundHistorial.vue';
 
 export default defineComponent({
   components: {
@@ -32,8 +36,9 @@ export default defineComponent({
     BannerComponent,
     RoundsButton,
     RoundsGame,
-    GameStats
-  }
+    RankingSellers,
+    RoundHistorial
+}
 });
 </script>
 
@@ -44,5 +49,11 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
 }
-
+.bottom-section {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin:  auto; /* Centra el contenedor en la página */
+  gap: 40px;
+}
 </style>
