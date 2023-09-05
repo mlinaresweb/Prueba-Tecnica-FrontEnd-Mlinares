@@ -3,16 +3,15 @@
     <div class="top-section">
       <BannerComponent></BannerComponent>
     </div>
-    <div class="middle-section">
+    <div class="rounds-wrapper">
       <RoundsGame></RoundsGame>
-      
+    </div>
+    <div class="middle-section">
       <ImageList></ImageList>
       <RoundsButton></RoundsButton>
-     
       <WinnerDisplay></WinnerDisplay>
     </div>
     <div class="bottom-section">
-      
       <RankingSellers></RankingSellers>
       <RoundHistorial></RoundHistorial>
     </div>
@@ -44,16 +43,31 @@ export default defineComponent({
 
 <style scoped>
 .hero {
-  width: calc(100% - 4px);
+  width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 .bottom-section {
   display: flex;
   justify-content: space-between;
   width: 90%;
-  margin:  auto; /* Centra el contenedor en la página */
+  margin:  auto; 
   gap: 40px;
+}
+.top-section{
+  position: relative; 
+
+}
+.middle-section {
+  position: relative;  
+  margin-top: 50px;
+}
+
+.rounds-wrapper {
+  position: absolute;
+  top: 270px;  
+  margin-left: 60px;
 }
 </style>

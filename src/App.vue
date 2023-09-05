@@ -1,7 +1,7 @@
 <template>
-      
+      <div class="app-container">
       <router-view></router-view>
-   
+    </div>
 </template>
 
 
@@ -18,10 +18,8 @@ export default defineComponent({
 
 <style>
   .app-container {
-    display: flex;
+    
     width: 100%;
   }
-  .content {
-    flex-grow: 1;
-  }
+  
 </style>
