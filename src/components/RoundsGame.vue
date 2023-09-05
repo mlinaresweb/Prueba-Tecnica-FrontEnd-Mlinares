@@ -26,7 +26,6 @@ export default {
 /* Copia los estilos del componente de Ranking */
 .rounds-container {
   max-width: 220px;
-  margin: 20px auto;
   padding: 15px;
   border-radius: 8px;
   background-color: #f5f5f5;

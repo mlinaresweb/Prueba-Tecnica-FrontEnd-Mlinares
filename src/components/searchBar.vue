@@ -1,12 +1,12 @@
 <!-- ParentComponent.vue -->
 <template>
-  <form> <div class="search-bar">
+  <div class="search-bar">
        <div class="relative flex"> 
       <SearchDropdown :selectedApi="selectedApi" @setApi="setApi"></SearchDropdown>
       <ImageSelector :selectedApi="selectedApi"></ImageSelector>
     </div>
     </div>
-  </form>
+  
   </template>
   
   <script lang="ts">
@@ -32,8 +32,9 @@
   </script>
   <style scoped>
 .search-bar{
-  width: 80%;
+  width: 65%;
   margin: 0 auto;
+  height: max-content;
 }
 </style>
   

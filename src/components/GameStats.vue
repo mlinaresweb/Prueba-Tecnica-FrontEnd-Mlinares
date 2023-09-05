@@ -9,8 +9,8 @@
         <RoundHistorial @changeComponent="onChangeComponent"></RoundHistorial>
       </div>
     </div>
-      <!-- Otros componentes -->
-      <RoundsGame></RoundsGame>
+
+     
     
   </template>
   
@@ -18,13 +18,11 @@
   import { defineComponent, ref } from 'vue';
   import RankingSellers from './RankingSellers.vue';
   import RoundHistorial from './RoundHistorial.vue';
-  import RoundsGame from './RoundsGame.vue';
   
   export default defineComponent({
     components: {
       RankingSellers,
       RoundHistorial,
-      RoundsGame,
     },
     setup() {
       const selectedComponent = ref('ranking');

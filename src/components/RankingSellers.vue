@@ -36,9 +36,9 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
-import { useToggleVisibility } from '../composables/useToggleVisibility'; // importa la función composable
+import { useToggleVisibility } from '../composables/useToggleVisibility'; 
 import DropdownMenu from './DropdownMenu.vue';
-import ToggleButton from './ToggleButton.vue'; // importa el componente ToggleButton
+import ToggleButton from './ToggleButton.vue'; 
 
 export default defineComponent({
   components: {
@@ -70,7 +70,7 @@ export default defineComponent({
   .ranking-container {
     display: flex;
   flex-direction: column;
-    max-width: 220px; 
+    
     margin: 20px auto;
     padding: 15px;
     border-radius: 8px;
