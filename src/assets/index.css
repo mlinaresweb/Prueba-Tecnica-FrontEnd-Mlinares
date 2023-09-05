@@ -2,3 +2,12 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @import 'flowbite/dist/flowbite.css';
+@import '@mdi/font/css/materialdesignicons.min.css';
+
+
+.toggle-container {
+  flex-grow: 1; 
+  display: flex; 
+  align-items: flex-end; 
+  justify-content: flex-end; 
+}

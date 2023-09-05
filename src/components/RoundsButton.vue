@@ -1,8 +1,10 @@
 <template>
-    <div>
-      <button @click="endRound">Finalizar ronda</button>
-    </div>
-  </template>
+  <div>
+    <!-- Solo se muestra si hay imágenes -->
+    <button v-if="hasImages" @click="endRound">Finalizar ronda</button>
+  </div>
+</template>
+
 <script lang="ts">
 import { computed } from 'vue';
 import { useStore } from 'vuex';
@@ -12,6 +14,7 @@ export default {
     const store = useStore();
     const selectedSeller = computed(() => store.state.game.selectedSeller);
     const query = computed(() => store.state.images.query);  
+    const hasImages = computed(() => store.state.images.imageItems.length > 0); // Nuevo
 
     const endRound = () => {
       if (!query.value) {
@@ -30,7 +33,8 @@ export default {
     };
 
     return {
-      endRound
+      endRound,
+      hasImages // Nuevo
     };
   },
 };

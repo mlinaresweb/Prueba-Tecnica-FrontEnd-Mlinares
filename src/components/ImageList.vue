@@ -1,20 +1,23 @@
 <template>
-  <div class="image-container">
+  <div class="image-container grid grid-cols-3 gap-4">
     <div 
-      class="image-item"
+      class="image-item justify-self-center self-center"
       v-for="item in visibleImages"
       :key="item.id"
     >
-      <img
-        class="image"
-        :class="{ selected: isSelected(item.id) }"
-        :src="item.url"
-        @click="selectImage(item.id, item.seller.id)"
-      />
+    <div class="image-item h-44 w-80 "> 
+  <img
+    class="image w-full h-full object-cover object-center border-2 border-transparent"
+    :class="{ selected: isSelected(item.id) }"
+    :src="item.url"
+    @click="selectImage(item.id, item.seller.id)"
+  />
+</div>
       <p>{{ getPointsLabel(item.seller) }}</p>
     </div>
   </div>
 </template>
+
 
 <script lang="ts">
 import { computed } from 'vue';
@@ -57,24 +60,10 @@ export default {
 
   
   <style scoped>
-.image-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: nowrap;
-}
 
-.image-item {
-  flex: 1;
-  text-align: center;
-}
 
-.image {
-  width: 100px; 
-  height: 100px;
-  object-fit: cover;
-}
 .selected {
   border: 2px solid blue;
 }
+
 </style>

@@ -10,6 +10,7 @@ export interface GameState {
     selectedSeller: string | null;
     selectedImageId: string | null;
     roundHistory: { round: number, winner: Seller, points: number }[];
+    
 }
 
 const state: GameState = {
@@ -21,6 +22,7 @@ const state: GameState = {
 };
 
 const mutations: MutationTree<GameState> = {
+    
     // Adds points to a seller if there is no winner yet
     addPoints(state, seller: Seller) {
         if (seller && !state.winner) {

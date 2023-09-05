@@ -48,3 +48,8 @@ export interface ImageItem {
     urls: { small: string };
     links: { html: string };
   }
+
+  export interface DropdownOption {
+    label: string;
+    value: string;
+  }

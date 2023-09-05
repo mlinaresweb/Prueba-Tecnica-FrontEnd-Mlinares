@@ -1,68 +1,87 @@
 <template>
   <div class="ranking-container">
-    <h2 class="ranking-title">Ranking de Vendedores</h2>
-    <div class="points-header">
-      <span>Puntos Obtenidos</span>
-      <span>Puntos Totales</span>
+    <div class="header">
+     
+      <DropdownMenu
+        :title="'Ranking de Vendedores'"
+        :options="[
+          { label: 'Ranking de Vendedores', value: 'ranking' },
+          { label: 'Historial de Rondas', value: 'history' },
+        ]"
+        @change="onChange"
+      ></DropdownMenu>
     </div>
-    <ul class="ranking-list">
+    <ul v-if="isContentVisible" class="ranking-list">
       <li class="ranking-item" v-for="seller in sellersSortedByPoints" :key="seller.id">
-        <span class="seller-name">{{ seller.name }}</span>
+        <div class="seller-info">
+          <span class="seller-name">{{ seller.name }}</span>
+          <span class="seller-points">{{ seller.points }} / 20</span>
+        </div>
         <div class="progress-container">
           <div class="progress-bar">
             <div class="progress-fill" :style="{ width: `${(seller.points / 20) * 100}%` }"></div>
           </div>
-          <div class="points-footer">
-            <span class="seller-points">{{ seller.points }}</span>
-            <span class="total-points">20</span>
-          </div>
         </div>
       </li>
     </ul>
+    <div class="toggle-container">
+  <ToggleButton
+    :isContentVisible="isContentVisible"
+    :toggleContentVisibility="toggleContentVisibility"
+  />
+</div>
   </div>
 </template>
-  
-  <script lang="ts">
-  import { computed } from 'vue';
-  import { useStore } from 'vuex';
-  
-  export default {
-    setup() {
-      const store = useStore();
-      const { sellers } = store.state.sellers;
 
-      const sellersSortedByPoints = computed(() => {
+<script lang="ts">
+import { defineComponent, computed } from 'vue';
+import { useStore } from 'vuex';
+import { useToggleVisibility } from '../composables/useToggleVisibility'; // importa la función composable
+import DropdownMenu from './DropdownMenu.vue';
+import ToggleButton from './ToggleButton.vue'; // importa el componente ToggleButton
+
+export default defineComponent({
+  components: {
+    DropdownMenu,
+    ToggleButton,
+  },
+  setup(_, { emit }) {
+    const store = useStore();
+    const { sellers } = store.state.sellers;
+    const { isContentVisible, toggleContentVisibility } = useToggleVisibility('RankingSellers');
+    const sellersSortedByPoints = computed(() => {
       return [...sellers].sort((a, b) => b.points - a.points);
     });
-    
-      return {
-        sellersSortedByPoints
-      };
-    },
-  };
-  </script>
-  
+
+    const onChange = (value: string) => {
+      emit('changeComponent', value);
+    };
+
+    return {
+      sellersSortedByPoints,
+      onChange,
+      isContentVisible,
+      toggleContentVisibility,
+    };
+  },
+});
+</script>
   <style scoped>
   .ranking-container {
-    width: 100%;
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+  flex-direction: column;
+    max-width: 220px; 
+    margin: 20px auto;
+    padding: 15px;
     border-radius: 8px;
+    background-color: #f5f5f5; 
+    color: black;
   }
   
   .ranking-title {
-    font-size: 24px;
-    margin-bottom: 16px;
+    font-size: 18px; 
+    margin-bottom: 12px;
     text-align: center;
-  }
-  
-  .points-header,
-  .points-footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 5px;
   }
   
   .ranking-list {
@@ -75,37 +94,40 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px;
+    padding: 8px;
     border-bottom: 1px solid #eee;
   }
   
+  .seller-info {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+  }
+  
   .seller-name {
+    font-size: 14px;
     font-weight: 600;
-    margin-right: 5px;
+  }
+  
+  .seller-points {
+    font-size: 12px;
+    color: #777;
   }
   
   .progress-container {
-    width: 100%;
+    width: 45%;
   }
   
   .progress-bar {
-    height: 8px;
+    height: 6px;
     background: #eee;
-    border-radius: 4px;
-    margin-top: 8px;
+    border-radius: 3px;
   }
   
   .progress-fill {
     height: 100%;
-    background: #4caf50;
-    border-radius: 4px;
+    background: #3498db; 
+    border-radius: 3px;
   }
-  
-  .seller-points,
-  .total-points {
-    font-size: 14px;
-    color: #777;
-  }
-  
 
-</style>
+  </style>

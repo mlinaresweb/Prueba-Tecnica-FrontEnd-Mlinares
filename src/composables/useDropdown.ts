@@ -1,6 +1,6 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 
-export function useDropdown(dropdownId: string) {
+export function useDropdown(dropdownId?: string) {
   const dropdownOpen = ref(false);
 
   const toggleDropdown = () => {
@@ -8,6 +8,8 @@ export function useDropdown(dropdownId: string) {
   };
 
   const closeDropdown = (e: Event) => {
+    if (!dropdownId) return;
+    
     const dropdownElement = document.getElementById(dropdownId);
     if (dropdownElement && !dropdownElement.contains(e.target as Node)) {
       dropdownOpen.value = false;
@@ -26,6 +28,6 @@ export function useDropdown(dropdownId: string) {
 
   return {
     dropdownOpen,
-    toggleDropdown
+    toggleDropdown,
   };
 }
