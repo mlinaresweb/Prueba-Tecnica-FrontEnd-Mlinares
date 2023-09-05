@@ -8,7 +8,6 @@
     </div>
     <div class="middle-section">
       <ImageList></ImageList>
-      <RoundsButton></RoundsButton>
       <WinnerDisplay></WinnerDisplay>
     </div>
     <div class="bottom-section">
@@ -23,7 +22,6 @@ import { defineComponent } from 'vue';
 import WinnerDisplay from '../components/WinnerDisplay.vue';
 import ImageList from '../components/ImageList.vue'; 
 import BannerComponent from '@/components/BannerComponent.vue';
-import RoundsButton from '@/components/RoundsButton.vue';
 import RoundsGame from '@/components/RoundsGame.vue';
 import RankingSellers from '@/components/RankingSellers.vue';
 import RoundHistorial from '@/components/RoundHistorial.vue';
@@ -33,7 +31,6 @@ export default defineComponent({
     WinnerDisplay,
     ImageList,
     BannerComponent,
-    RoundsButton,
     RoundsGame,
     RankingSellers,
     RoundHistorial

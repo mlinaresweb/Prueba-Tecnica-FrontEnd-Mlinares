@@ -1,10 +1,49 @@
-<script lang="ts">
-import { computed } from 'vue';
-import { useStore } from 'vuex';
 
-export default {
+<template>
+   <div class="">
+    <ImageSkeletonLoader v-if="isLoading" />
+    <div v-else class="image-container">
+    <div 
+      class="image-item"
+      v-for="item in visibleImages"
+      :key="item.id"
+    >
+      <div class="image-box">
+        <img
+          class="image"
+          :class="{ 'border-blue-500': isSelected(item.id) }"
+          :src="item.url"
+          @click="selectImage(item.id, item.seller.id)"
+        />
+      </div>
+      <div class="seller-info">
+        <div class="seller-details">
+          <div class="seller-name">
+            {{ item.seller.name }}
+          </div>
+          <button class="like-button">
+            <RoundButton />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</template>
+<script lang="ts">
+import { computed,defineComponent} from 'vue';
+import { useStore } from 'vuex';
+import RoundButton from './RoundsButton.vue'; // 
+import ImageSkeletonLoader from './ImageSkeletonLoader.vue';
+
+export default defineComponent({
+  components: {
+    RoundButton,
+    ImageSkeletonLoader,
+  },
   setup() {
     const store = useStore();
+    const isLoading = computed(() => store.state.images.isLoading);
 
     // Computed property to get image items from the state
     const imageItems = computed(() => store.state.images.imageItems);
@@ -32,35 +71,17 @@ export default {
       isSelected,
       getPointsLabel,
       selectImage,
+      isLoading
     };
   },
-};
+});
 </script>
 
-<template>
-  <div class="image-container">
-    <div 
-      class="image-item"
-      v-for="item in visibleImages"
-      :key="item.id"
-    >
-      <div class="image-box">
-        <img
-          class="image"
-          :class="{ 'border-blue-500': isSelected(item.id) }"
-          :src="item.url"
-          @click="selectImage(item.id, item.seller.id)"
-        />
-      </div>
-      <p class="seller-points">{{ getPointsLabel(item.seller) }}</p>
-    </div>
-  </div>
-</template>
 
 <style scoped>
 .image-box {
   position: relative;
-  padding-top: 54.44%; /* Proporción de aspecto: (altura / anchura * 100%) */
+  padding-top: 70%;
   overflow: hidden;
   cursor: pointer;
   transition: all .3s ease-in-out;
@@ -86,11 +107,39 @@ export default {
   border-color: blue;
 }
 
-.seller-points {
-  margin-top: 8px;
+.seller-info {
+  background-color: #333;
+  color: white;
+  padding: 10px;
   text-align: center;
-  font-weight: 600;
-  color: #4a4a4a;
+  border-radius: 0 0 10px 10px;
+  font-weight: 700;
+  font-size: 1em;
+  position: relative;
+}
+
+.seller-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.seller-name {
+  font-size: 1.2em;
+}
+
+.points-number {
+  margin-right: 5px;
+  font-size: 1.5em;
+}
+
+.points-icon {
+  color: gold;
+  font-size: 1.2em;
+}
+
+.seller-name {
+  margin-top: 5px;
 }
 
 .image-container {

@@ -33,6 +33,7 @@ export default defineComponent({
     
     // Load new images based on the query
     const loadImages = async () => {
+      store.commit('setLoading', true);
   if (winner.value) {
     alert("El juego ha terminado, no se pueden cargar más imágenes.");
     return;
@@ -50,6 +51,7 @@ export default defineComponent({
       store.commit('setExtraImages', mappedImages.slice(6));
     }
   }
+  store.commit('setLoading', false);
 };
 
 // Update query in Vuex state

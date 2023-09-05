@@ -36,23 +36,28 @@ const mutations: MutationTree<SellersState> = {
 const actions: ActionTree<SellersState, RootState> = {
   async createFactura({ commit }, factura: Factura) {
     try {
-      // Crear un ítem primero para obtener su ID
-      const itemName = 'points';
-      const itemPrice = factura.items[0].price;
-      const itemId = await createItem(itemName, itemPrice);
-
-      // Usa la ID del ítem al crear la factura
-      factura.items[0].id = itemId;
-
-      const facturaId = await createFactura(factura);
-      commit('SET_LAST_FACTURA_ID', facturaId);
-      commit('ADD_FACTURA', factura);
-
+      // Asegurarse de que items y price existen
+      if (factura.items && typeof factura.items[0]?.price === 'number') {
+        // Crear un ítem primero para obtener su ID
+        const itemName = 'points';
+        const itemPrice = factura.items[0].price;
+        const itemId = await createItem(itemName, itemPrice);
+  
+        // Usa la ID del ítem al crear la factura
+        factura.items[0].id = itemId;
+  
+        const facturaId = await createFactura(factura);
+        commit('SET_LAST_FACTURA_ID', facturaId);
+        commit('ADD_FACTURA', factura);
+      } else {
+        throw new Error('Items o Price no están definidos');
+      }
     } catch (error) {
       console.error("Error al crear factura o ítem:", error);
       throw new Error('Error al crear factura o ítem');
     }
   },
+  
   async getFactura(_, id: string) {
    
     try {

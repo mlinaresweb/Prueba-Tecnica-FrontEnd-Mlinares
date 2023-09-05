@@ -1,7 +1,9 @@
 <template>
   <div>
     <!-- Solo se muestra si hay imágenes -->
-    <button v-if="hasImages" @click="endRound">Finalizar ronda</button>
+    <button v-if="hasImages" class="end-round-button" @click="endRound">
+      <i class="fas fa-flag"></i> Finalizar ronda
+    </button>
   </div>
 </template>
 
@@ -39,3 +41,24 @@ export default {
   },
 };
 </script>
+<style scoped>
+.end-round-button {
+  background-color: #3644fc;
+  border: none;
+  border-radius: 15px;
+  color: white;
+  padding: 5px 10px;
+  font-size: 0.8em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.end-round-button:hover {
+  background-color: #4072fc;
+  transform: scale(1.05);
+}
+
+.end-round-button i {
+  margin-right: 5px;
+}
+</style>

@@ -33,13 +33,86 @@ export interface ImageItem {
     points: number;
     imageUrl?: string;
   }
-  export interface Factura {
-    items: Array<{ id: number, price: number, quantity: 1 }>;
-    dueDate: Date;
-    date: Date;
-    client: { id: number };
-    seller: { id: string };
+  interface Client {
+    id?: number;
+    name?: string;
+    identification?: string;
+    phonePrimary?: string;
+    phoneSecondary?: string;
+    fax?: string;
+    mobile?: string;
+    email?: string;
+    address?: {
+      address?: string;
+      city?: string;
+    };
   }
+  
+  interface Item {
+    name?: string;
+    description?: string | null;
+    price?: number;
+    discount?: number;
+    reference?: string | null;
+    quantity?: number;
+    id?: number;
+    irpfApplied?: boolean;
+    tax?: number;
+    total?: number;
+  }
+  
+  export interface Factura {
+    id?: string;
+    date?: Date;
+    dueDate?: Date;
+    datetime?: string;
+    observations?: string | null;
+    anotation?: string | null;
+    termsConditions?: string | null;
+    status?: string;
+    client?: Client;
+    numberTemplate?: {
+      id?: string;
+      prefix?: string | null;
+      number?: string;
+      text?: string | null;
+      documentType?: string;
+      fullNumber?: string;
+      formattedNumber?: string;
+    };
+    subtotal?: number;
+    discount?: number;
+    tax?: number;
+    total?: number;
+    totalPaid?: number;
+    balance?: number;
+    decimalPrecision?: string;
+    warehouse?: {
+      id?: string;
+      name?: string;
+    };
+    term?: string;
+    equivalenceSurchargeApplied?: boolean;
+    paymentMethod?: string | null;
+    seller?: {
+      id?: string;
+      name?: string;
+      identification?: string | null;
+      observations?: string | null;
+    };
+    priceList?: {
+      id?: number;
+      name?: string;
+    };
+    items?: Item[];
+    costCenter?: string | null;
+    printingTemplate?: {
+      id?: string;
+      name?: string;
+      pageSize?: string;
+    };
+  }
+  
   export interface GoogleCustomSearchResponse {
     items: ImageItem[];
   }

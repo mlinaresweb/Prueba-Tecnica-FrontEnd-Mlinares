@@ -4,6 +4,7 @@ import { RootState, ImageItem } from '../types/types';
 interface SelectImagePayload {
   imageId: string;
   selected: boolean;
+  
 }
 
 export interface ImagesState {
@@ -11,13 +12,14 @@ export interface ImagesState {
     query: string;
     imageItems: ImageItem[];
     extraImages: ImageItem[];
-}
+    isLoading: boolean;}
 
 const state: ImagesState = {
     selectedImages: {},
     query: '',
     imageItems: [],
     extraImages: [],
+    isLoading: false,
 };
 
 const mutations: MutationTree<ImagesState> = {
@@ -41,6 +43,9 @@ const mutations: MutationTree<ImagesState> = {
     setExtraImages(state, items: ImageItem[]) {
         state.extraImages = items;
     },
+    setLoading(state, isLoading: boolean) {
+        state.isLoading = isLoading;
+      },
 };
 
 const actions: ActionTree<ImagesState, RootState> = {
