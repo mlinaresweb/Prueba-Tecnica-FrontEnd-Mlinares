@@ -11,14 +11,14 @@
       <WinnerDisplay></WinnerDisplay>
     </div>
     <div class="bottom-section">
-      <RankingSellers></RankingSellers>
-      <RoundHistorial></RoundHistorial>
+      <RankingSellers class="ranking-container" />
+      <RoundHistorial :containerHeight="rankingHeight" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref, onMounted, nextTick } from 'vue';
 import WinnerDisplay from '../components/WinnerDisplay.vue';
 import ImageList from '../components/ImageList.vue'; 
 import BannerComponent from '@/components/BannerComponent.vue';
@@ -34,7 +34,29 @@ export default defineComponent({
     RoundsGame,
     RankingSellers,
     RoundHistorial
-}
+},
+setup() {
+    const rankingHeight = ref(0);
+
+    onMounted(async () => {
+      await nextTick();
+
+      const rankingContainer = document.querySelector('.ranking-container');
+      if (rankingContainer) {
+        rankingHeight.value = rankingContainer.clientHeight;
+      }
+
+      window.addEventListener('resize', () => {
+        if (rankingContainer) {
+          rankingHeight.value = rankingContainer.clientHeight;
+        }
+      });
+    });
+
+    return {
+      rankingHeight,
+    };
+  },
 });
 </script>
 
@@ -49,14 +71,37 @@ export default defineComponent({
 .bottom-section {
   display: flex;
   justify-content: space-between;
-  width: 90%;
-  margin:  auto; 
-  gap: 40px;
+  width: 100%;
+  gap: 20px;
+  align-items: stretch;
 }
 .top-section{
   position: relative; 
 
 }
+.middle-section {
+  position: relative;  
+  margin-top: 50px;
+}
+
+.rounds-wrapper {
+  position: absolute;
+  top: 270px;  
+  margin-left: 60px;
+}
+/* Media query para pantallas de tamaño pequeño */
+@media (max-width: 768px) {
+  .bottom-section {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.top-section {
+  position: relative; 
+}
+
 .middle-section {
   position: relative;  
   margin-top: 50px;

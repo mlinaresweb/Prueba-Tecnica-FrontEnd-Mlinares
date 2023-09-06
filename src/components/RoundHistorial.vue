@@ -1,36 +1,36 @@
 <template>
-  <div class="base-container" :class="containerClass">
-    <h2 class="history-title">Historial de Rondas</h2> 
-    <div class="header">
-    </div>
-    <ul v-if="isContentVisible" class="history-list">
-      <li v-for="record in roundHistory" :key="record.round" class="history-item">
-        <div class="round-number">Ronda {{ record.round }}</div>
-        <img :src="findSellerImage(record.winner.id)" alt="Vendedor" class="seller-image">
-        <div class="seller-name">{{ record.winner.name }}</div>
-        <div class="points">{{ record.points }} puntos</div>
+ <div class="base-container history-container flex flex-col items-center space-y-4"
+       :style="{ height: containerHeight + 'px' }">
+    <h2 class="history-title text-2xl font-bold">Historial de Rondas</h2>
+    <div class="header"></div>
+    <ul v-if="isContentVisible" class="history-list w-full bg-white rounded-md p-4">
+      <li v-for="record in roundHistory" :key="record.round" class="history-item flex items-center space-x-4 p-2">
+        <div class="round-number text-lg font-semibold">{{ "Ronda " + record.round }}</div>
+        <img :src="findSellerImage(record.winner.id)" alt="Vendedor" class="seller-image w-12 h-12 rounded-full">
+        <div class="seller-name flex-grow text-lg">{{ record.winner.name }}</div>
+        <div class="points text-lg text-blue-500 font-semibold">{{ record.points + " puntos" }}</div>
       </li>
     </ul>
-    <div class="toggle-container">
-      <ToggleButton
-        :isContentVisible="isContentVisible"
-        :toggleContentVisibility="toggleContentVisibility"
-      />
-    </div>
   </div>
 </template>
+
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
 import { Seller } from '../store/types/types';
-import ToggleButton from './ToggleButton.vue';
 import { useToggleVisibility } from '../composables/useToggleVisibility';
 
 export default defineComponent({
-  components: {
-    ToggleButton,
+  props: {
+    containerHeight: {
+      type: Number,
+      required: true,
+    }
   },
+  components: {
+  },
+  
   setup(_, { emit }) {
     const { isContentVisible, toggleContentVisibility } = useToggleVisibility('RoundHistorial');
     const store = useStore();
@@ -60,6 +60,7 @@ export default defineComponent({
 
 <style scoped>
 .history-container {
+  width: calc(100% - 70% - 20px);
   flex-grow: 1;
 }
 
@@ -67,7 +68,10 @@ export default defineComponent({
   list-style: none;
   padding: 0;
   margin: 0;
+  overflow-y: auto; 
+  max-height: calc(100% - 5px); 
 }
+
 .history-title {
   text-align: center;
   margin-bottom: 5px;
@@ -75,35 +79,74 @@ export default defineComponent({
   font-size: 1.5em;
   font-weight: bold;
 }
+
 .history-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  background-color: #f9f9f9;
-  padding: 10px;
   border-radius: 5px;
+  margin-bottom: 1rem;
+  background-color: #f9f9f9;
 }
 
 .round-number {
-  font-weight: bold;
-  font-size: 1.2em;
   margin-right: 10px;
 }
 
 .seller-image {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
   margin-right: 10px;
 }
 
 .seller-name {
-  flex-grow: 1;
   font-size: 1.1em;
 }
 
 .points {
   font-weight: bold;
-  color: #007bff;
 }
+/* Tus estilos actuales */
+
+@media (max-width: 768px) {
+  .history-container {
+    width: 90%;
+  }
+  .history-title {
+    font-size: 1.3em;
+  }
+
+  .round-number, .points, .seller-name {
+    font-size: 1em;
+  }
+  .seller-image {
+    width: 35px;
+    height: 35px;
+  }
+  /* ... otros estilos ... */
+}
+
+@media (max-width: 500px) {
+  .history-title {
+    font-size: 1.2em;
+  }
+  .round-number, .points, .seller-name {
+    font-size: 0.9em;
+  }
+  .seller-image {
+    width: 30px;
+    height: 30px;
+  }
+}
+@media (max-width: 320px) {
+  .history-title {
+    font-size: 1em;
+  }
+  .round-number, .points, .seller-name {
+    font-size: 0.6em;
+  }
+  .seller-image {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+
+
+
 </style>

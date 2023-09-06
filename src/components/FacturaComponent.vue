@@ -1,16 +1,23 @@
 <template>
-    <div>
-      <button @click="createFactura" :disabled="loading">
-      <FacturaLoader v-if="loading" />
-      <span v-else>Crear Factura</span>
-    </button>
-    <AlertComponent :show="showAlert" message="Factura creada exitosamente!" />
-    <ErrorAlertComponent :show="showErrorAlert" message="Error al crear la factura" />
-    <button @click="viewFactura">Ver Factura</button>
-    <FacturaModal :showModal="showModal" :factura="currentFactura" @close-modal="showModal = false" />
-
+  <div>
+    <div class="create-section" v-if="!facturaCreated">
+      <button @click="createFactura" >
+        <FacturaLoader v-if="loading" />
+        <span v-else>Crear Factura</span>
+      </button>
+      <ErrorAlertComponent :show="showErrorAlert" message="Error al crear la factura" />
     </div>
-  </template>
+    
+    <div class="view-section" v-if="facturaCreated">
+      <button @click="viewFactura">Ver Factura</button>
+    </div>
+    <AlertComponent class="alert-section" :show="showAlert" message="Factura creada exitosamente!" />
+
+    <FacturaModal :showModal="showModal" :factura="currentFactura" @close-modal="showModal = false" />
+  </div>
+</template>
+
+
   
   <script lang="ts">
   import { defineComponent, PropType,ref } from 'vue';
@@ -41,6 +48,7 @@
       const showErrorAlert = ref(false);
       const showModal = ref(false);
       const currentFactura = ref<Factura | null>(null);
+      const facturaCreated = ref(false);
 
     const createFactura = async () => {
       loading.value = true;
@@ -62,6 +70,7 @@
     try {
       await store.dispatch('createFactura', facturaData);
       showAlert.value = true;
+      facturaCreated.value = true;
       console.log("Factura e ítem creados exitosamente");
     } catch (error) {
       showErrorAlert.value = true;
@@ -89,6 +98,7 @@
       loading,
       showAlert,
       showErrorAlert,
+      facturaCreated,
       createFactura,
       viewFactura,
       showModal,
@@ -97,3 +107,16 @@
   }
 });
 </script>
+<style scoped>
+.create-section,
+.view-section {
+  margin-bottom: 20px;  /* Ajusta este valor según tus necesidades */
+  text-align: center;
+}
+.alert-section {
+  min-height: 40px; /* Establecer según el tamaño de tus alertas */
+  text-align: center; /* Para centrar el contenido */
+  margin-bottom: 5px;
+  margin-top: -7px;
+}
+</style>

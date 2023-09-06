@@ -1,5 +1,5 @@
 <template>
-  <div v-if="winner">
+  <div v-if="winner" class="winner-container">
     <p>{{ winner.name }} ha ganado la carrera</p>
     <FacturaComponent :winner="winner" />
     <button @click="resetGame">Reiniciar juego</button>
@@ -31,3 +31,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+.winner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+</style>
