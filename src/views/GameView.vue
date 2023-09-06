@@ -86,7 +86,8 @@ setup() {
 
 .rounds-wrapper {
   position: absolute;
-  top: 270px;  
+  top: 300px; 
+  margin-top: 30px; 
   margin-left: 60px;
 }
 /* Media query para pantallas de tamaño pequeño */
@@ -108,8 +109,7 @@ setup() {
 }
 
 .rounds-wrapper {
-  position: absolute;
-  top: 270px;  
-  margin-left: 60px;
+  margin-top: 10px; 
+
 }
 </style>
