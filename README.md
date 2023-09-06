@@ -20,7 +20,22 @@ Esta es una aplicación de votación de imágenes construida con Vue.js. Permite
 - Alegra API
 - Google Custom Search API
 - Unsplash API
-  
+- 
+## Configuración de Variables de Entorno
+
+Antes de ejecutar el proyecto, asegúrate de configurar las siguientes variables de entorno en tu archivo `.env`. Aquí hay ejemplos de cómo deberían verse:
+
+```env
+VUE_APP_ALEGRA_API=https://api.alegra.com/api/v1
+VUE_APP_ALEGRA_EMAIL=ejemplo@gmail.com
+VUE_APP_ALEGRA_TOKEN=token_alegra
+
+VUE_APP_GOOGLE_API_URL=https://www.googleapis.com/customsearch/v1
+VUE_APP_GOOGLE_API_KEY=api_key_google
+VUE_APP_GOOGLE_SEARCH_ENGINE_ID=id_motor_busqueda
+
+VUE_APP_UNSPLASH_ACCESS_KEY=access_key_unsplash
+
 ## Instalación y Uso
 
 Para configurar el proyecto en tu máquina local:
