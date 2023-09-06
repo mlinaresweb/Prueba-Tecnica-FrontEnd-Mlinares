@@ -1,5 +1,3 @@
-<!-- RegisterComponent.vue -->
-
 <template>
     <div>
       <input v-model="name" placeholder="Nombre" />
@@ -8,19 +6,26 @@
     </div>
   </template>
   
-  <script lang="ts">
+<script lang="ts">
   import { defineComponent, ref } from 'vue';
+  import { useRouter } from 'vue-router'; // Importar useRouter
   import { useStore } from 'vuex';
   
   export default defineComponent({
     setup() {
+      const router = useRouter(); // Utilizar el router
       const store = useStore();
       const name = ref('');
       const email = ref('');
   
       const registerClient = async () => {
         const client = { name: name.value, email: email.value };
-        await store.dispatch('createClient', client);
+        try {
+          await store.dispatch('createClient', client);
+          router.push('/game');  // Redireccionar al juego
+        } catch (error) {
+          console.error("Error al registrar el cliente:", error);
+        }
       };
   
       return {
@@ -30,5 +35,4 @@
       };
     }
   });
-  </script>
-  
+</script>
