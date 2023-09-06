@@ -18,7 +18,6 @@ export default defineComponent({
 
 <style>
   .app-container {
-    
     width: 100%;
   }
   

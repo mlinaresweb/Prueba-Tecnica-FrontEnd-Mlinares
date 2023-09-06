@@ -1,4 +1,3 @@
-<!-- ParentComponent.vue -->
 <template>
   <div class="search-bar">
        <div class="relative flex"> 

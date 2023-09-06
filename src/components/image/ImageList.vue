@@ -45,22 +45,16 @@ export default defineComponent({
     const store = useStore();
     const isLoading = computed(() => store.state.images.isLoading);
 
-    // Computed property to get image items from the state
     const imageItems = computed(() => store.state.images.imageItems);
 
-    // Computed property to get the selected image ID from the state
     const selectedImageId = computed(() => store.state.game.selectedImageId);
 
-    // Filter to display only the first 5 image items
     const visibleImages = computed(() => imageItems.value.slice(0, 6));
 
-    // Function to check if an image is selected
     const isSelected = (id: string) => id === selectedImageId.value;
 
-    // Function to get the points label for a seller
     const getPointsLabel = (seller: { name: string, points: number }) => `${seller.name}: ${seller.points}`;
 
-    // Function to handle image and seller selection
     const selectImage = (imageId: string, sellerId: string) => {
       store.commit('setSelectedImageId', imageId);
       store.commit('setSelectedSeller', sellerId);
@@ -88,7 +82,9 @@ export default defineComponent({
 }
 
 .image-box:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+
 }
 
 .image {
@@ -99,25 +95,32 @@ export default defineComponent({
   height: 100%;
   object-fit: cover;
   transition: all .3s ease-in-out;
-  border: 4px solid transparent;
   border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1) ;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+
+
 }
 
 .border-blue-500 {
-  border-color: blue;
+  transition: all .1s ease-in-out;
+
+  border: 4px solid rgb(79, 134, 255);
+
 }
 
 .seller-info {
-  background-color: #333;
-  color: white;
+  background-color: #f9f9f9; 
+  color: #333; 
   padding: 10px;
   text-align: center;
   border-radius: 0 0 10px 10px;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 1em;
   position: relative;
-}
+  border: 1px solid rgba(0, 0, 0, 0.1); 
 
+}
 .seller-details {
   display: flex;
   justify-content: space-between;
@@ -148,16 +151,15 @@ export default defineComponent({
   gap: 1rem;
   margin-left: 2.5%;
   margin-right: 2.5%;
+
 }
 
-/* Estilo para tabletas */
 @media (min-width: 640px) {
   .image-container {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Estilo para pantallas de escritorio */
 @media (min-width: 1024px) {
   .image-container {
     grid-template-columns: repeat(3, 1fr);

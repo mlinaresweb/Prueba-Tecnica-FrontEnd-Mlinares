@@ -53,11 +53,9 @@
       const currentFactura = ref<Factura | null>(null);
       const facturaCreated = ref(false);
 
-// Obtener la información del cliente del localStorage
 const clientInfo = getClientFromLocalStorage();
     if (!clientInfo) {
       console.error('No se pudo obtener la información del cliente del localStorage.');
-      // Aquí puedes decidir qué hacer si no hay un cliente en el localStorage.
     } else {
       console.log('Información del cliente recuperada:', clientInfo);
     }

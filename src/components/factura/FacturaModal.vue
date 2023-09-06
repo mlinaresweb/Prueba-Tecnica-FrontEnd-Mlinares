@@ -26,7 +26,6 @@
           <div>
             <strong>ID: </strong> {{ factura?.client?.id }}
           </div>
-          <!-- Añadir más campos del cliente aquí -->
         </div>
         
         <!-- Detalles de los ítems -->
@@ -47,13 +46,12 @@
           <tbody>
             <tr v-for="item in factura?.items" :key="item.id">
               <td>{{ item.name }}</td>
-              <td><!-- Referencia aquí --></td>
+              <td></td>
               <td>{{ item.price }}€</td>
-              <td><!-- Descuento aquí --></td>
-              <td><!-- Impuesto aquí --></td>
-              <td><!-- Descripción aquí --></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td>{{ item.quantity }}</td>
-              <!-- <td>{{ item.price * item.quantity }}€</td> -->
               <td>{{ item.price }}€</td>
             </tr>
           </tbody>
@@ -61,19 +59,25 @@
         
         <!-- Resumen de la factura -->
         <div class="invoice-summary">
-          <div><strong>Base imponible:</strong> <!-- Base imponible aquí -->€</div>
-          <div><strong>Descuento:</strong> -<!-- Descuento aquí -->€</div>
-          <div><strong>Subtotal:</strong> <!-- Subtotal aquí -->€</div>
-          <div><strong>Total:</strong> {{ factura?.total }}€</div>
-        </div>
+    <div class="total">
+      <span class="label">Total</span>
+      <span class="value">{{ factura?.total }}€</span>
+    </div>
+  </div>
         
         <!-- Términos y condiciones -->
         <h3>Términos y Condiciones</h3>
-        <p><!-- Añadir términos y condiciones aquí --></p>
+<div class="terms">
+  <p><strong>1. Plazos de Pago:</strong> El pago total de esta factura debe realizarse a más tardar en la fecha de vencimiento indicada.</p>
+  <p><strong>2. Penalización por Atraso:</strong> Los pagos realizados después de la fecha de vencimiento podrían incurrir en una tarifa adicional.</p>
+  <p><strong>3. Reclamaciones:</strong> Cualquier discrepancia en la factura debe ser comunicada dentro de los 5 días laborables posteriores a su recepción.</p>
+  <p><strong>4. Devoluciones:</strong> No se aceptarán devoluciones o cancelaciones de productos o servicios que ya hayan sido entregados o realizados, a menos que se especifique lo contrario.</p>
+  <p><strong>5. Confidencialidad:</strong> La información contenida en esta factura es confidencial y sólo debe ser vista por el emisor y el receptor.</p>
+</div>
         
         <!-- Notas -->
         <h3>Notas</h3>
-        <p><!-- Añadir notas aquí --></p>
+        <p></p>
       </div>
     </div>
   </template>
@@ -103,7 +107,6 @@
   </script>
   
   <style scoped>
-  /* Estilos para el modal */
   .modal {
     display: flex;
     justify-content: center;
@@ -127,7 +130,6 @@
     position: relative;
   }
   .close {
-    /* Añade color rojo al icono de cerrar */
     color: red;
     position: absolute;
     top: 10px;
@@ -136,11 +138,30 @@
     font-size: 24px;
   }
 
-  h1, h2, h3 {
-    font-family: 'Arial', sans-serif;
-    margin-bottom: 20px;
+  h1 {
+    font-size: 24px;
+    margin-bottom: 24px;
+    color: #333;
   }
-  
+
+  h2, h3 {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+  .terms {
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+  .basic-info, .client-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 32px;
+  }
+
+  .basic-info div, .client-info div {
+    width: 45%;
+  }
   .basic-info, .client-info, .invoice-summary {
     display: flex;
     flex-direction: column;
@@ -151,15 +172,14 @@
   
   .items-table {
     width: 100%;
+    margin-bottom: 32px;
     border-collapse: collapse;
-    margin-bottom: 20px;
   }
 
-  .items-table th,
-  .items-table td {
+  .items-table th, .items-table td {
     border: 1px solid #ccc;
     text-align: left;
-    padding: 10px;
+    padding: 12px;
   }
 
   .items-table th {
@@ -171,8 +191,17 @@
   }
 
   .invoice-summary {
-    align-self: flex-end;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
   }
-  
-  /* Añade más estilos aquí según tus necesidades */
+
+  .invoice-summary .total {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .invoice-summary .label {
+    margin-right: 8px;
+  }
 </style>

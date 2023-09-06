@@ -23,8 +23,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;  /* 100% de la altura de la ventana */
-    width: 100%;  /* 100% del ancho */
+    min-height: 100vh;  
+    width: 100%;  
   }
   
   .image-container.skeleton-container {
@@ -36,14 +36,12 @@
     width: 100%;
   }
   
-  /* Estilo para tabletas */
   @media (min-width: 640px) {
     .image-container.skeleton-container {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
-  /* Estilo para pantallas de escritorio */
   @media (min-width: 1024px) {
     .image-container.skeleton-container {
       grid-template-columns: repeat(3, 1fr);
@@ -61,7 +59,7 @@
   
   .seller-info.skeleton-info {
     background-color: #333;
-    color: transparent;  /* Hacer el texto transparente */
+    color: transparent; 
     padding: 10px;
     text-align: center;
     border-radius: 0 0 10px 10px;

@@ -13,13 +13,13 @@
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import FacturaComponent from '../factura/FacturaComponent.vue';
-import CustomButton from '../reusable/CustomButton.vue'; // Importa el componente de botón
+import CustomButton from '../reusable/CustomButton.vue'; 
 import { Seller } from '../../store/types/types';
 
 export default {
   components: {
     FacturaComponent,
-    CustomButton  // Añade el componente de botón aquí
+    CustomButton  
   },
   setup() {
     const store = useStore();

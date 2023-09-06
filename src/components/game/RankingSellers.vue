@@ -24,14 +24,14 @@
           <td class="px-4 py-2 text-points">{{ seller.points }} / 20</td>
           <td class="px-4 py-2">
             <div class="progress-container relative pt-1">
-              <div class="progress-bar flex h-2 bg-gray-200 rounded">
-                <div class="progress-fill" :style="{ width: `${(seller.points / 20) * 100}%` }"></div>
-              </div>
-              <div class="progress-labels flex justify-between text-xs mt-1">
-                <span class="progress-start">{{ (seller.points / 20) * 100 }}%</span>
-                <span class="progress-end">100%</span>
-              </div>
-            </div>
+  <div class="progress-bar flex h-2 bg-gray-200 rounded">
+    <div class="progress-fill" :style="{ width: `${Math.min((seller.points / 20) * 100, 100)}%` }"></div>
+  </div>
+  <div class="progress-labels flex justify-between text-xs mt-1">
+    <span class="progress-start">{{ Math.min((seller.points / 20) * 100, 100) }}%</span>
+    <span class="progress-end">100%</span>
+  </div>
+</div>
           </td>
         </tr>
       </tbody>
@@ -87,6 +87,7 @@ export default defineComponent({
   font-family: Arial, sans-serif;
   font-size: 1.5em;
   font-weight: bold;
+  margin-top: 5px;
 }
 
 .ranking-table th, .ranking-table td {

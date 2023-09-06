@@ -27,11 +27,10 @@ export default defineComponent({
   setup(props) {
     const store = useStore();
     const { filterAndMapImages } = useImageFilterAndMapping();
-    // Computed properties for query and winner state
+
     const query: Ref<string> = computed(() => store.state.images.query);
     const winner: Ref<boolean> = computed(() => store.state.game.winner);
     
-    // Load new images based on the query
     const loadImages = async () => {
       store.commit('setLoading', true);
   if (winner.value) {
@@ -54,12 +53,10 @@ export default defineComponent({
   store.commit('setLoading', false);
 };
 
-// Update query in Vuex state
 const setNewQuery = (newQuery: string) => {
       store.commit('setQuery', newQuery);
     };
 
-    // Handle input event for the search query
     const handleInput = async ($event: Event) => {
   const target = $event.target as HTMLInputElement | null;
   if (target) {

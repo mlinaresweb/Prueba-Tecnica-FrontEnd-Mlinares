@@ -1,4 +1,3 @@
-<!-- LoaderComponent.vue -->
 <template>
     <div class="loader"></div>
   </template>

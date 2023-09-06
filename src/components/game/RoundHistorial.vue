@@ -78,12 +78,15 @@ export default defineComponent({
   font-family: Arial, sans-serif;
   font-size: 1.5em;
   font-weight: bold;
+  margin-top: 5px;
 }
 
 .history-item {
   border-radius: 5px;
   margin-bottom: 1rem;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1); 
+
 }
 
 .round-number {
@@ -101,7 +104,6 @@ export default defineComponent({
 .points {
   font-weight: bold;
 }
-/* Tus estilos actuales */
 
 @media (max-width: 768px) {
   .history-container {
@@ -118,7 +120,6 @@ export default defineComponent({
     width: 35px;
     height: 35px;
   }
-  /* ... otros estilos ... */
 }
 
 @media (max-width: 500px) {
@@ -146,7 +147,21 @@ export default defineComponent({
   }
 }
 
-
+@media (min-width: 768px) and (max-width: 1200px) {
+  .history-container {
+    width: 40%; 
+  }
+  .history-title {
+    font-size: 1.4em; 
+  }
+  .round-number, .points, .seller-name {
+    font-size: 0.7em; 
+  }
+  .seller-image {
+    width: 40px; 
+    height: 40px; 
+  }
+}
 
 
 </style>

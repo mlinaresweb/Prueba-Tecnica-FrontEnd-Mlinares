@@ -33,7 +33,7 @@ export default {
   padding: 10px;
   border-radius: 12px;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.1); /* Borde sutil */
+  border: 1px solid rgba(0, 0, 0, 0.1); 
 
 }
 
@@ -60,7 +60,6 @@ export default {
   text-align: center;
 }
 
-/* Estilos para pantallas móviles */
 @media (max-width: 768px) {
   .round-circle {
     width: 20px;
