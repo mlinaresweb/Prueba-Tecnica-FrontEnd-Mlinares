@@ -15,22 +15,28 @@ Esta es una aplicación de votación de imágenes construida con Vue.js. Permite
 
 - Vue.js
 - Vuex
+- TypeScript
+- Tailwind
 - Alegra API
 - Google Custom Search API
 - Unsplash API
-- 
+  
 ## Instalación y Uso
-```
-npm install
-```
 
-### Compiles and hot-reloads for development
 Para configurar el proyecto en tu máquina local:
 
-1. Clona el repositorio: git clone https://github.com/mlinaresweb/Prueba-Tecnica-FrontEnd-Mlinares.git
-2. Instala las dependencias: npm install
-3.  Ejecuta el servidor de desarrollo: npm run serve
-
+1. Clona el repositorio: 
+```
+git clone https://github.com/mlinaresweb/Prueba-Tecnica-FrontEnd-Mlinares.git
+```
+2. Instala las dependencias:
+ ```
+npm install
+```
+3.  Ejecuta el servidor de desarrollo: 
+```
+npm run serve
+```
 ### Compiles and minifies for production
 ```
 npm run build
