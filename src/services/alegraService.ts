@@ -1,5 +1,5 @@
 import alegraApi from './api/alegraApiConfig';
-import { AlegraSellerResponse, Factura } from '../store/types/types';
+import { AlegraSellerResponse, Factura, Client  } from '../store/types/types';
 
 export const getSellers = async (): Promise<AlegraSellerResponse[]> => {
   try {
@@ -47,5 +47,24 @@ export const getFactura = async (id: string) => {
   } catch (error) {
     console.error("Error al obtener factura:", error);
     throw new Error('Error al obtener factura');
+  }
+};
+export const createClient = async (data: Client): Promise<number> => {
+  try {
+    const response = await alegraApi.post('/contacts', data);
+    return response.data.id;
+  } catch (error) {
+    console.error("Error al crear cliente:", error);
+    throw new Error('Error al crear cliente');
+  }
+};
+
+export const getClient = async (id: number | string): Promise<Client> => {
+  try {
+    const response = await alegraApi.get(`/contacts/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener cliente:", error);
+    throw new Error('Error al obtener cliente');
   }
 };

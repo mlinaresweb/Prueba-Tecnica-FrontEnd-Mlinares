@@ -1,11 +1,13 @@
 import { SellersState } from '../modules/sellers';
 import { GameState } from '../modules/game';
 import { ImagesState } from '../modules/images';
+import { ClientState } from '../modules/client';
 
 export interface RootState {
   sellers: SellersState;
   game: GameState;
   images: ImagesState;
+  client:ClientState;
 }
 
 
@@ -33,7 +35,7 @@ export interface ImageItem {
     points: number;
     imageUrl?: string;
   }
-  interface Client {
+  export interface Client {
     id?: number;
     name?: string;
     identification?: string;
@@ -48,7 +50,7 @@ export interface ImageItem {
     };
   }
   
-  interface Item {
+  export interface Item {
     name?: string;
     description?: string | null;
     price?: number;

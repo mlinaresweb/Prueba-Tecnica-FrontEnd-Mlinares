@@ -29,7 +29,7 @@
   import ErrorAlertComponent from './ErrorAlertComponent.vue';
   import FacturaModal from './FacturaModal.vue';
   import FacturaButton from './FacturaButton.vue';
-
+  import { getClientFromLocalStorage } from '../services/getClientService';
   export default defineComponent({
     components: {
       FacturaLoader,
@@ -53,6 +53,16 @@
       const currentFactura = ref<Factura | null>(null);
       const facturaCreated = ref(false);
 
+// Obtener la información del cliente del localStorage
+const clientInfo = getClientFromLocalStorage();
+    if (!clientInfo) {
+      console.error('No se pudo obtener la información del cliente del localStorage.');
+      // Aquí puedes decidir qué hacer si no hay un cliente en el localStorage.
+    } else {
+      console.log('Información del cliente recuperada:', clientInfo);
+    }
+
+
     const createFactura = async () => {
       loading.value = true;
   if (props.winner && props.winner.id) {
@@ -66,7 +76,7 @@
       items: [{ id: 1, price: totalPoints, quantity: 1 }],  
       dueDate,
       date: currentDate,
-      client: { id: 1 },
+      client: { id: clientInfo.id },
       seller: { id: props.winner.id },
     };
 
@@ -113,12 +123,12 @@
 <style scoped>
 .create-section,
 .view-section {
-  margin-bottom: 20px;  /* Ajusta este valor según tus necesidades */
+  margin-bottom: 20px;  
   text-align: center;
 }
 .alert-section {
-  min-height: 40px; /* Establecer según el tamaño de tus alertas */
-  text-align: center; /* Para centrar el contenido */
+  min-height: 40px; 
+  text-align: center; 
   margin-bottom: 5px;
   margin-top: -7px;
 }
