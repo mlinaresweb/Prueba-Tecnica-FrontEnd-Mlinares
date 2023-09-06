@@ -19,9 +19,9 @@
   
   <script lang="ts">
   import { defineComponent, ref, onMounted } from 'vue';
-  import { useDropdown } from '../composables/useDropdown';
-  import { hashString } from '../utils/stringUtils'; 
-  import { DropdownOption } from '../store/types/types';
+  import { useDropdown } from '../../composables/useDropdown';
+  import { hashString } from '../../utils/stringUtils'; 
+  import { DropdownOption } from '../../store/types/types';
 
 
   

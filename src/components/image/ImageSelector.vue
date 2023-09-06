@@ -15,10 +15,10 @@
 <script lang="ts">
 import { computed, Ref, defineComponent } from 'vue';
 import { useStore } from 'vuex';
-import { fetchImages } from '../services/googleImageService';
-import { fetchUnsplashImages } from '../services/unplashService';
-import { ImageItem } from '../store/types/types';
-import useImageFilterAndMapping from '../composables/useImageFilterAndMapping';
+import { fetchImages } from '../../services/googleImageService';
+import { fetchUnsplashImages } from '../../services/unplashService';
+import { ImageItem } from '../../store/types/types';
+import useImageFilterAndMapping from '../../composables/useImageFilterAndMapping';
 
 export default defineComponent({
   props: {

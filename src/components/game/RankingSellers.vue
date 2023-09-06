@@ -44,7 +44,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
-import { useToggleVisibility } from '../composables/useToggleVisibility'; 
+import { useToggleVisibility } from '../../composables/useToggleVisibility'; 
 
 export default defineComponent({
   components: {

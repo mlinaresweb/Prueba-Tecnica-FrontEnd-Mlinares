@@ -33,8 +33,8 @@
 <script lang="ts">
 import { computed,defineComponent} from 'vue';
 import { useStore } from 'vuex';
-import RoundButton from './RoundsButton.vue'; // 
-import ImageSkeletonLoader from './ImageSkeletonLoader.vue';
+import RoundButton from '../game/RoundsButton.vue'; 
+import ImageSkeletonLoader from '../loaders/ImageSkeletonLoader.vue';
 
 export default defineComponent({
   components: {

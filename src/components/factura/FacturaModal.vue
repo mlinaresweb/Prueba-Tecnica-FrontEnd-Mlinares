@@ -80,7 +80,7 @@
   
   <script lang="ts">
     import { defineComponent, PropType } from 'vue';
-    import { Factura } from '../store/types/types';
+    import { Factura } from '../../store/types/types';
     
     export default defineComponent({
       props: {

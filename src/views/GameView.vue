@@ -19,12 +19,12 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, nextTick } from 'vue';
-import WinnerDisplay from '../components/WinnerDisplay.vue';
-import ImageList from '../components/ImageList.vue'; 
-import BannerComponent from '@/components/BannerComponent.vue';
-import RoundsGame from '@/components/RoundsGame.vue';
-import RankingSellers from '@/components/RankingSellers.vue';
-import RoundHistorial from '@/components/RoundHistorial.vue';
+import WinnerDisplay from '../components/game/WinnerDisplay.vue';
+import ImageList from '../components/image/ImageList.vue'; 
+import BannerComponent from '@/components/ui/BannerComponent.vue';
+import RoundsGame from '@/components/game/RoundsGame.vue';
+import RankingSellers from '@/components/game/RankingSellers.vue';
+import RoundHistorial from '@/components/game/RoundHistorial.vue';
 
 export default defineComponent({
   components: {

@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useDropdown } from '../composables/useDropdown';
+import { useDropdown } from '../../composables/useDropdown';
 
 export default defineComponent({
   props: {

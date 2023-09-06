@@ -11,9 +11,8 @@
   
   <script lang="ts">
   import { ref } from 'vue';
-  import ImageSelector from './ImageSelector.vue';
+  import ImageSelector from '../image/ImageSelector.vue';
   import SearchDropdown from './searchDropdown.vue';
-  
   export default {
     components: { ImageSelector, SearchDropdown },
     setup() {

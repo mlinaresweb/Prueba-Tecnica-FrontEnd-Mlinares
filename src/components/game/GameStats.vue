@@ -1,4 +1,4 @@
-<!-- GameStats.vue -->
+<!-- GameStats.vue
 <template>
     <div class="game-stats-container">
       <!-- Componentes hijos -->
@@ -50,4 +50,4 @@
 
 
   </style>
-  
+   -->

@@ -12,9 +12,9 @@
 <script lang="ts">
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-import FacturaComponent from './FacturaComponent.vue';
-import CustomButton from './CustomButton.vue'; // Importa el componente de botón
-import { Seller } from '../store/types/types';
+import FacturaComponent from '../factura/FacturaComponent.vue';
+import CustomButton from '../reusable/CustomButton.vue'; // Importa el componente de botón
+import { Seller } from '../../store/types/types';
 
 export default {
   components: {

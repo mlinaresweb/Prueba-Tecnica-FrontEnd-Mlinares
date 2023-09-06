@@ -23,13 +23,13 @@
   <script lang="ts">
   import { defineComponent, PropType,ref } from 'vue';
   import { useStore } from 'vuex';
-  import { Factura, Seller } from '../store/types/types';
-  import FacturaLoader from './FacturaLoader.vue';
-  import AlertComponent from './AlertComponent.vue';
-  import ErrorAlertComponent from './ErrorAlertComponent.vue';
+  import { Factura, Seller } from '../../store/types/types';
+  import FacturaLoader from '../loaders/FacturaLoader.vue';
+  import AlertComponent from '../alerts/AlertComponent.vue';
+  import ErrorAlertComponent from '../alerts/ErrorAlertComponent.vue';
   import FacturaModal from './FacturaModal.vue';
   import FacturaButton from './FacturaButton.vue';
-  import { getClientFromLocalStorage } from '../services/getClientService';
+  import { getClientFromLocalStorage } from '../../services/getClientService';
   export default defineComponent({
     components: {
       FacturaLoader,

@@ -18,8 +18,8 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
-import { Seller } from '../store/types/types';
-import { useToggleVisibility } from '../composables/useToggleVisibility';
+import { Seller } from '../../store/types/types';
+import { useToggleVisibility } from '../../composables/useToggleVisibility';
 
 export default defineComponent({
   props: {
