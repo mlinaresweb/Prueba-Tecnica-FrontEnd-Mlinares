@@ -35,7 +35,7 @@ VUE_APP_GOOGLE_API_KEY=api_key_google
 VUE_APP_GOOGLE_SEARCH_ENGINE_ID=id_motor_busqueda
 
 VUE_APP_UNSPLASH_ACCESS_KEY=access_key_unsplash
-
+```
 ## Instalación y Uso
 
 Para configurar el proyecto en tu máquina local:
