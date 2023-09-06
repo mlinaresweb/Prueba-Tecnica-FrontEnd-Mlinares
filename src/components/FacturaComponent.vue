@@ -1,18 +1,19 @@
 <template>
   <div>
     <div class="create-section" v-if="!facturaCreated">
-      <button @click="createFactura" >
+      <FacturaButton  :onClick="createFactura"  >
         <FacturaLoader v-if="loading" />
-        <span v-else>Crear Factura</span>
-      </button>
+    <span v-else>Crear Factura</span>
+        </FacturaButton>
       <ErrorAlertComponent :show="showErrorAlert" message="Error al crear la factura" />
     </div>
     
     <div class="view-section" v-if="facturaCreated">
-      <button @click="viewFactura">Ver Factura</button>
+      <FacturaButton  :onClick="viewFactura"  >
+    <span >Ver Factura</span>
+        </FacturaButton>
     </div>
     <AlertComponent class="alert-section" :show="showAlert" message="Factura creada exitosamente!" />
-
     <FacturaModal :showModal="showModal" :factura="currentFactura" @close-modal="showModal = false" />
   </div>
 </template>
@@ -27,13 +28,15 @@
   import AlertComponent from './AlertComponent.vue';
   import ErrorAlertComponent from './ErrorAlertComponent.vue';
   import FacturaModal from './FacturaModal.vue';
+  import FacturaButton from './FacturaButton.vue';
 
   export default defineComponent({
     components: {
       FacturaLoader,
       AlertComponent,
       ErrorAlertComponent,
-      FacturaModal
+      FacturaModal,
+      FacturaButton
   },
     props: {
       winner: {
