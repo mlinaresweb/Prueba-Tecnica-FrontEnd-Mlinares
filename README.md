@@ -20,7 +20,6 @@ Esta es una aplicación de votación de imágenes construida con Vue.js. Permite
 - Alegra API
 - Google Custom Search API
 - Unsplash API
-- 
 ## Configuración de Variables de Entorno
 
 Antes de ejecutar el proyecto, asegúrate de configurar las siguientes variables de entorno en tu archivo `.env`. Aquí hay ejemplos de cómo deberían verse:
